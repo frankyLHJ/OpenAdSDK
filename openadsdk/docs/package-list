@@ -1,0 +1,7 @@
+com.zhichan.openadsdk.client
+com.zhichan.openadsdk.common
+com.zhichan.openadsdk.constant
+com.zhichan.openadsdk.holder
+com.zhichan.openadsdk.view.activity
+com.zhichan.openadsdk.view.fragment
+com.zhichan.openadsdk.view.widget

@@ -1,0 +1,3 @@
+rootProject.name='ZhichanOpenSDK'
+include ':app'
+include ':openadsdk'
