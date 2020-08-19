@@ -89,7 +89,12 @@ public class MsmIntegralFragment extends AgentWebFragment implements MsmBannerAd
 
     @Override
     public void onShield(String filter) {
-
+        if (webLayout.getChildCount() >= 1) {
+            for (int i = 1; i < webLayout.getChildCount(); i++) {
+                View view = webLayout.getChildAt(i);
+                webLayout.removeView(view);
+            }
+        }
     }
 
     public class MyJavascriptInterface {
