@@ -22,8 +22,10 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,13 +62,16 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     private ImageView mBackImageView;
     private View mLineView;
+    protected FrameLayout webLayout;
     private ImageView mFinishImageView;
     private TextView mTitleTextView;
     protected AgentWeb mAgentWeb;
     public static final String URL_KEY = "url_key";
+    public static final String SHOW_TOOLBAR = "show_toolbar";
     private ImageView mMoreImageView;
     private PopupMenu mPopupMenu;
     private AlertDialog mAlertDialog;
+    private RelativeLayout toolLayout;
 
     private String currentUrl;
 
@@ -127,9 +132,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         // AgentWeb 没有把WebView的功能全面覆盖 ，所以某些设置 AgentWeb 没有提供 ， 请从WebView方面入手设置。
         mAgentWeb.getWebCreator().getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         mAgentWeb.getWebCreator().getWebView().setHorizontalScrollBarEnabled(false);
-        //mAgentWeb.getWebCreator().getWebView()  获取WebView .
-
-//		mAgentWeb.getWebCreator().getWebView().setOnLongClickListener();
 
     }
 
@@ -315,7 +317,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         }
     };
 
-    public boolean isCurrentUrl() {
+    public boolean canBack() {
         return getUrl().equals(currentUrl);
     }
 
@@ -334,6 +336,11 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         mFinishImageView.setOnClickListener(mOnClickListener);
         mMoreImageView = (ImageView) view.findViewById(R.id.iv_more);
         mMoreImageView.setOnClickListener(mOnClickListener);
+        toolLayout = view.findViewById(R.id.toolbar);
+        webLayout = view.findViewById(R.id.web_layout);
+        assert this.getArguments() != null;
+        boolean showTool = this.getArguments().getBoolean(SHOW_TOOLBAR, true);
+        toolLayout.setVisibility(showTool ? View.VISIBLE : View.GONE);
         pageNavigator(View.GONE);
     }
 

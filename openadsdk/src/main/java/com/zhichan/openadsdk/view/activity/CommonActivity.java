@@ -52,7 +52,7 @@ public class CommonActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mAgentWebFragment == null || mAgentWebFragment.isCurrentUrl()) {
+        if (mAgentWebFragment == null || mAgentWebFragment.canBack()) {
             super.onBackPressed();
         } else {
             mAgentWebFragment.back();

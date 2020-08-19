@@ -40,7 +40,6 @@ public class BaseWebActivity extends AppCompatActivity {
 
     protected AgentWeb mAgentWeb;
     private LinearLayout mLinearLayout;
-    private Toolbar mToolbar;
     private TextView mTitleTextView;
     private AlertDialog mAlertDialog;
 
@@ -59,9 +58,6 @@ public class BaseWebActivity extends AppCompatActivity {
 
 
         mLinearLayout = (LinearLayout) this.findViewById(R.id.linearLayout);
-        mToolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setTitle("");
         mTitleTextView = (TextView) this.findViewById(R.id.toolbar_title);
 
         mBackImageView = (ImageView) this.findViewById(R.id.iv_back);
@@ -72,20 +68,6 @@ public class BaseWebActivity extends AppCompatActivity {
         mMoreImageView = (ImageView) this.findViewById(R.id.iv_more);
         mMoreImageView.setOnClickListener(mOnClickListener);
         pageNavigator(View.GONE);
-
-        this.setSupportActionBar(mToolbar);
-        if (getSupportActionBar() != null) {
-            // Enable the Up button
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                showDialog();
-            }
-        });
-
 
         long p = System.currentTimeMillis();
 

@@ -10,4 +10,10 @@
 
     <include android:id="@+id/toolbar" layout="@layout/toorbar_main"></include>
 
+    <FrameLayout
+        android:id="@+id/web_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
 </LinearLayout>

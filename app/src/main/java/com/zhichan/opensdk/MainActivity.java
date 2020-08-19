@@ -27,21 +27,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//      打开积分活动页
-        Button integral = findViewById(R.id.integralBtn);
-        integral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, IntegralActivity.class);
-                startActivity(intent);
-            }
-        });
 //      打开积分活动页(fragment)
         Button integral1 = findViewById(R.id.integralBtn1);
         integral1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CommonActivity.class);
+                Intent intent = new Intent(MainActivity.this, TestActivity.class);
                 startActivity(intent);
             }
         });
