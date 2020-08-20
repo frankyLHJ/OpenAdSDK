@@ -7,6 +7,10 @@ import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 
+/**
+ * 开屏广告加载帮助类
+ */
+
 public class MsmAdLoadHolder {
 
     private TTAdNative mTTAdNative; // 广告类

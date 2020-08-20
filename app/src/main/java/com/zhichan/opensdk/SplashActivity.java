@@ -2,6 +2,7 @@ package com.zhichan.opensdk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,24 +22,24 @@ public class SplashActivity extends AppCompatActivity implements MsmAdLoadHolder
         MsmAdLoadHolder.getInstance().setSplashAdListener(this);
         MsmAdLoadHolder.getInstance().splashAdLoad(
                 this,
-                "887365528",
+                "887365528", // 广告位id
                 1080,
                 1920,
-                3000,
-                false
+                3000, // 广告加载超时时间
+                false // 是否自定义跳过逻辑
         );
     }
 
     @Override
     public void onError(int i, String s) {
         Log.e("MsmAdLoadHolder", "onError: " + i + ",msg:" + s);
-        finish();
+        this.gotoMainPage();
     }
 
     @Override
     public void onTimeout() {
         Log.i("MsmAdLoadHolder", "onTimeout");
-        finish();
+        this.gotoMainPage();
     }
 
     @Override
@@ -64,12 +65,18 @@ public class SplashActivity extends AppCompatActivity implements MsmAdLoadHolder
     @Override
     public void onAdSkip() {
         Log.i("MsmAdLoadHolder", "onAdSkip" );
-        finish();
+        this.gotoMainPage();
     }
 
     @Override
     public void onAdTimeOver() {
         Log.i("MsmAdLoadHolder", "onAdTimeOver" );
-        finish();
+        this.gotoMainPage();
+    }
+
+    private void gotoMainPage() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 }

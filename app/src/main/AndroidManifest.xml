@@ -35,7 +35,7 @@
             android:name=".SplashActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TestActivity"
+            android:name=".DemoActivity"
             android:screenOrientation="portrait" />
     </application>
 

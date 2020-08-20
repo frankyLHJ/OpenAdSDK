@@ -123,11 +123,9 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 .ready()//设置 WebSettings。
                 .go(getUrl()); //WebView载入该url地址的页面并显示。
 
-
-        AgentWebConfig.debug();
+//        AgentWebConfig.debug();
 
         initView(view);
-
 
         // AgentWeb 没有把WebView的功能全面覆盖 ，所以某些设置 AgentWeb 没有提供 ， 请从WebView方面入手设置。
         mAgentWeb.getWebCreator().getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
@@ -242,15 +240,9 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         //
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, String url) {
-
             Log.i(TAG, "view:" + view.getHitTestResult());
             Log.i(TAG, "mWebViewClient shouldOverrideUrlLoading:" + url);
-            //优酷想唤起自己应用播放该视频 ， 下面拦截地址返回 true  则会在应用内 H5 播放 ，禁止优酷唤起播放该视频，
             // 如果返回 false ， DefaultWebClient  会根据intent 协议处理 该地址 ， 首先匹配该应用存不存在 ，
-            // 如果存在 ， 唤起该应用播放 ， 如果不存在 ， 则跳到应用市场下载该应用 .
-            if (url.startsWith("intent://") && url.contains("com.youku.phone")) {
-                return true;
-            }
 			/*else if (isAlipay(view, mUrl))   //1.2.5开始不用调用该方法了 ，只要引入支付宝sdk即可 ， DefaultWebClient 默认会处理相应url调起支付宝
 			    return true;*/
             return super.shouldOverrideUrlLoading(view, url);

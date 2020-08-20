@@ -18,6 +18,13 @@ public class MsmManagerHolder {
         return TTAdSdk.getAdManager();
     }
 
+    public static void requestPermissionIfNecessary(Context context) {
+        if (!sInit) {
+            throw new RuntimeException("TTAdSdk is not init, please check.");
+        }
+        TTAdSdk.getAdManager().requestPermissionIfNecessary(context);
+    }
+
     public static void init(Context context, MsmAdConfig config) {
         doInit(context, config);
     }
