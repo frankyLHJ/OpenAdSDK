@@ -23,3 +23,5 @@
 -keep class com.bytedance.sdk.openadsdk.** { *; }
 -keep public interface com.bytedance.sdk.openadsdk.downloadnew.** {*;}
 -keep class com.pgl.sys.ces.* {*;}
+-keep class com.zhichan.openadsdk.** { *; }
+-keep public interface com.zhichan.openadsdk.common.** {*;}
