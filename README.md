@@ -91,6 +91,8 @@ public class MyApplication extends Application {
 **开屏广告**  
 **demo如下，可以根据自己需要进行修改**  
 **注意：开屏广告view：width >=70%屏幕宽；height >=50%屏幕高才能正常上报获取收益**
+*加载广告方法的最后一个参数填true sdk就不会显示倒计时按钮，可以自定义*
+![avatar][https://alicdn.msmds.cn/adSdk/demo_sdk_splash.jpg]
 ```
 public class SplashActivity extends AppCompatActivity implements MsmAdLoadHolder.SplashAdListener {
 
