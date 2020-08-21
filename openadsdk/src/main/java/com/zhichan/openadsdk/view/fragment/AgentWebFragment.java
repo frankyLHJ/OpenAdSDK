@@ -310,7 +310,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     };
 
     public boolean canBack() {
-        return getUrl().equals(currentUrl);
+        return !getUrl().equals(currentUrl);
     }
 
     public void back() {

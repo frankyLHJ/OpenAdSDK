@@ -136,7 +136,7 @@ public class MsmIntegralFragment extends AgentWebFragment implements
 
     @Override
     public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
-
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoBannerAd.onRewardVerify();");
     }
 
     @Override

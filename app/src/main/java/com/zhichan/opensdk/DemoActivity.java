@@ -33,10 +33,10 @@ public class DemoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (msmIntegralFragment == null || msmIntegralFragment.canBack()) {
-            super.onBackPressed();
-        } else {
+        if (msmIntegralFragment != null && msmIntegralFragment.canBack()) {
             msmIntegralFragment.back();
+        } else {
+            super.onBackPressed();
         }
     }
 }

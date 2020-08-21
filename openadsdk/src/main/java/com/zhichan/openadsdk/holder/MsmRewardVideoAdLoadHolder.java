@@ -12,7 +12,7 @@ import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 /**
  * author : frankylee
  * date : 2020/8/20 2:38 PM
- * description : 激励适配加载帮助类
+ * description : 激励视频加载帮助类
  */
 public class MsmRewardVideoAdLoadHolder {
 
