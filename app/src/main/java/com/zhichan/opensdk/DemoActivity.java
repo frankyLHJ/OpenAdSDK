@@ -23,8 +23,9 @@ public class DemoActivity extends AppCompatActivity {
         Bundle mBundle;
         msmIntegralFragment = MsmIntegralFragment.getInstance(mBundle = new Bundle());
         ft.add(R.id.container_framelayout, msmIntegralFragment, MsmIntegralFragment.class.getName());
-        mBundle.putString(MsmIntegralFragment.URL_KEY, "https://wxapp.msmds.cn/h5/rn_web/#/sign");// 签到页
+        mBundle.putString(MsmIntegralFragment.URL_KEY, "https://wxapp.msmds.cn/h5/react_web/sign");// 签到页
 //        mBundle.putBoolean(MsmIntegralFragment.SHOW_TOOLBAR, false); // 是否显示toolbar
+        mBundle.putString(MsmIntegralFragment.APP_ID, "10000"); // appid
         mBundle.putString(MsmIntegralFragment.BANNER_CODE_ID, "945413865"); // banner广告位id
         mBundle.putString(MsmIntegralFragment.NATIVE_CODE_ID, "945198258"); // 信息流广告位id
         mBundle.putString(MsmIntegralFragment.REWARD_VIDEO_CODE_ID, "945198260"); // 激励视频广告位id

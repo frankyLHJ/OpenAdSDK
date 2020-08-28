@@ -57,6 +57,7 @@ import com.zhichan.openadsdk.view.activity.BaseWebActivity;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
@@ -74,6 +75,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     private RelativeLayout toolLayout;
 
     private String currentUrl;
+
+    protected Map<String, View> adViews = new HashMap<>();// 存储所有广告
 
     /**
      * 用于方便打印测试
@@ -128,6 +131,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         initView(view);
 
         // AgentWeb 没有把WebView的功能全面覆盖 ，所以某些设置 AgentWeb 没有提供 ， 请从WebView方面入手设置。
+        String userAgent = mAgentWeb.getWebCreator().getWebView().getSettings().getUserAgentString();
+        mAgentWeb.getWebCreator().getWebView().getSettings().setUserAgentString(userAgent + "msmds");
         mAgentWeb.getWebCreator().getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         mAgentWeb.getWebCreator().getWebView().setHorizontalScrollBarEnabled(false);
 
@@ -174,6 +179,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             public WebListenerManager setDownloader(WebView webView, android.webkit.DownloadListener downloadListener) {
                 return super.setDownloader(webView,downloadListener);
             }
+
         };
     }
 

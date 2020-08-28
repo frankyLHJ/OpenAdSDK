@@ -40,15 +40,15 @@ public class MainActivity extends AppCompatActivity implements MsmRewardVideoAdL
             }
         });
 
-        MsmRewardVideoAdLoadHolder.getInstance().setRewardVideoAdListener(this);
-        MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdLoad(MainActivity.this, "945198260");
-        Button rewardVideo = findViewById(R.id.rewardVideo);
-        rewardVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay(MainActivity.this);
-            }
-        });
+//        MsmRewardVideoAdLoadHolder.getInstance().setRewardVideoAdListener(this);
+//        MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdLoad(MainActivity.this, "945198260");
+//        Button rewardVideo = findViewById(R.id.rewardVideo);
+//        rewardVideo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay(MainActivity.this);
+//            }
+//        });
     }
 
 
