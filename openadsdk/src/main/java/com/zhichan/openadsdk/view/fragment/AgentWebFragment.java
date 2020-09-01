@@ -491,6 +491,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             Toast.makeText(getActivity(), "已清理缓存", Toast.LENGTH_SHORT).show();
             //清空所有 AgentWeb 硬盘缓存，包括 WebView 的缓存 , AgentWeb 下载的图片 ，视频 ，apk 等文件。
 //            AgentWebConfig.clearDiskCache(this.getContext());
+            this.mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.localStorage.clear()");
         }
 
     }
