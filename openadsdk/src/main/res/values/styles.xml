@@ -18,7 +18,7 @@
 
     <style name="toolBar">
         <item name="colorControlNormal">#ffffff</item>
-        <item name="android:homeAsUpIndicator">@mipmap/cha</item>
+        <item name="android:homeAsUpIndicator">@mipmap/msmds_cancel</item>
         <item name="android:titleTextStyle">@style/titlestyle</item>
 
     </style>

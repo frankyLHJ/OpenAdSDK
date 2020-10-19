@@ -357,8 +357,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                     AgentWebFragment.this.getActivity().finish();
                 }
             } else if (id == R.id.iv_finish) {
-                showDialog();
-//                AgentWebFragment.this.getActivity().finish();
+                AgentWebFragment.this.getActivity().finish();
             } else if (id == R.id.iv_more) {
                 showPoPup(v);
             }
@@ -385,7 +384,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                             if (mAlertDialog != null) {
                                 mAlertDialog.dismiss();
                             }
-                            AgentWebFragment.this.getActivity().finish();
+
                         }
                     }).create();
         }
