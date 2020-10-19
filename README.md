@@ -1,27 +1,21 @@
 # 买什么都省SDK接入指南
-*注意：此版本sdk不适用于中国以外的安卓商店/渠道。*
 
 **步骤 1：工程设置**
 *导入 aar 及 SDK 依赖的 jar 包*  
-将本 SDK 压缩包内的 open_ad_sdk.aar 复制到 Application Module/libs 文件夹(没有的话须手动创建), 并将以下代码添加到您 app 的build.gradle
+将以下代码添加到您 app 的build.gradle
 ```
-  android{
-    ...
-    repositories {
-      flatDir {
-        dirs 'libs'
-      }
-    }
-  }
+  ...
   
   depedencies {
       ...
-      implementation(name: 'open_ad_sdk', ext: 'aar')
-      implementation 'com.zhichan:openadsdk:1.0.1'
+      implementation(name: 'open_ad_sdk', ext: 'aar') // 这是穿山甲SDK的arr包，已自行导入请忽略
+      implementation 'com.zhichan:openadsdk:1.0.6'
   }
 ```
 **步骤二：全局配置**  
+**已经接入穿山甲SDK忽略该步奏**  
 *添加权限*  
+
 ```
 <!--必要权限-->
 <uses-permission android:name="android.permission.INTERNET" />
@@ -42,26 +36,23 @@
 <!-- 如果有视频相关的广告且使用textureView播放，请务必添加，否则黑屏 -->
 <uses-permission android:name="android.permission.WAKE_LOCK" />
 ```  
+**已经接入穿山甲SDK忽略该步奏**  
 **注意：SDK不强制获取以上权限，即使没有获取可选权限SDK也能正常运行；获取以上权限将帮助优化投放广告精准度和用户的交互体验，提高eCPM。
-为获取更好的广告推荐效果，以及提高激励视频广告、下载类广告等填充率，建议在广告请求前，合适的时机调用 SDK 提供的方法，如在用户第一次启动您的 app 后的主界面时调用如下方法：**  
+为获取更好的广告推荐效果，以及提高激励视频广告、下载类广告等填充率，建议在广告请求前，合适的时机调用 SDK 提供的方法，如在用户第一次启动您的 app 后的主界面时调用如下方法：**
+ 
 ```
 // 动态权限请求，可选
 MsmManagerHolder.requestPermissionIfNecessary(this);
-```  
-**运行环境配置**  
-*本 SDK 可运行于 Android4.0 (API Level 14) 及以上版本。*  
-*如果开发者声明targetSdkVersion到API 23以上，请确保调用本SDK的任何接口前，已经申请到了SDK要求的所有权限，否则SDK部分特性可能受限。*  
+```   
 
 **代码混淆配置**
 *如果您需要使用 proguard 混淆代码，需确保不要混淆 SDK 的代码。 请在 proguard.cfg 文件(或其他混淆文件)尾部添加如下配置:*  
 ```
--keep class com.bytedance.sdk.openadsdk.** { *; }
--keep public interface com.bytedance.sdk.openadsdk.downloadnew.** {*;}
--keep class com.pgl.sys.ces.* {*;}
 -keep class com.zhichan.openadsdk.** { *; }
 -keep public interface com.zhichan.openadsdk.common.** {*;}
 ```
 **SDK 初始化配置**  
+**可以使用穿山甲提供的方法，也可以使用本SDK封装好的，是一样的**  
 *开发者需要在Application#onCreate()方法中调用以下代码来初始化sdk。*  
 ```
 public class MyApplication extends Application {
@@ -89,6 +80,7 @@ public class MyApplication extends Application {
 
 # 使用
 **开屏广告**  
+**可以使用穿山甲提供的方法，也可以使用本SDK封装好的，是一样的**  
 **demo如下，可以根据自己需要进行修改**  
 **注意：开屏广告view：width >=70%屏幕宽；height >=50%屏幕高才能正常上报获取收益**  
 **加载广告方法的最后一个参数填true sdk就不会显示倒计时按钮，可以自定义**  
@@ -164,8 +156,8 @@ public class SplashActivity extends AppCompatActivity implements MsmAdLoadHolder
     }
 }
 ```
-**打开签到页**  
-**签到页是使用fragment可以嵌入自己的Activity中**
+**打开买什么都省H5页面**  
+**使用fragment嵌入自己的Activity中**
 ```
 public class DemoActivity extends AppCompatActivity {
 
@@ -181,11 +173,11 @@ public class DemoActivity extends AppCompatActivity {
         Bundle mBundle;
         msmIntegralFragment = MsmIntegralFragment.getInstance(mBundle = new Bundle());
         ft.add(R.id.container_framelayout, msmIntegralFragment, MsmIntegralFragment.class.getName());
-        mBundle.putString(MsmIntegralFragment.URL_KEY, "https://wxapp.msmds.cn/h5/rn_web/#/sign");// 签到页
+        mBundle.putString(MsmIntegralFragment.URL_KEY, "https://wxapp.msmds.cn/h5/rn_web/#/sign");// 买什么都省提供h5页面
 //        mBundle.putBoolean(MsmIntegralFragment.SHOW_TOOLBAR, false); // 是否显示toolbar(默认显示)
-        mBundle.putString(MsmIntegralFragment.BANNER_CODE_ID, "945413865"); // banner广告位id
-        mBundle.putString(MsmIntegralFragment.NATIVE_CODE_ID, "945198258"); // 信息流广告位id
-        mBundle.putString(MsmIntegralFragment.REWARD_VIDEO_CODE_ID, "945198260"); // 激励视频广告位id
+        mBundle.putString(MsmIntegralFragment.BANNER_CODE_ID, "945413865"); // banner广告位id，自行申请的banner广告位id
+        mBundle.putString(MsmIntegralFragment.NATIVE_CODE_ID, "945198258"); // 信息流广告位id，自行申请的信息流广告位id
+        mBundle.putString(MsmIntegralFragment.REWARD_VIDEO_CODE_ID, "945198260"); // 激励视频广告位id，自行申请的激励视频广告位id
         ft.commit();
     }
 
