@@ -6,21 +6,19 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 
 import com.just.agentweb.AgentWeb;
 import com.lcodecore.tkrefreshlayout.utils.DensityUtil;
 import com.zhichan.openadsdk.R;
-import com.zhichan.openadsdk.holder.MsmBannerAdLoadHolder;
-import com.zhichan.openadsdk.holder.MsmNativeAdLoadHolder;
-import com.zhichan.openadsdk.holder.MsmRewardVideoAdLoadHolder;
+import com.zhichan.openadsdk.holder.union.MsmBannerAdLoadHolder;
+import com.zhichan.openadsdk.holder.union.MsmNativeAdLoadHolder;
+import com.zhichan.openadsdk.holder.union.MsmRewardVideoAdLoadHolder;
 
 import org.json.JSONObject;
 
@@ -227,11 +225,12 @@ public class MsmIntegralFragment extends AgentWebFragment implements
                 JSONObject styleObj = new JSONObject(style);
                 int width = Integer.parseInt(styleObj.getString("width"));
                 int height = Integer.parseInt(styleObj.getString("height"));
+                double scale = styleObj.has("scale") ? Double.parseDouble(styleObj.getString("scale")) : 1;
                 top = styleObj.has("top") ? styleObj.getString("top") : "0";
                 left = styleObj.has("left") ? styleObj.getString("left") : "0";
                 assert MsmIntegralFragment.this.getArguments() != null;
                 String codeId = MsmIntegralFragment.this.getArguments().getString(BANNER_CODE_ID);
-                MsmBannerAdLoadHolder.getInstance().bannerAdLoad(context, codeId, width, height);
+                MsmBannerAdLoadHolder.getInstance().bannerAdLoad(context, codeId, (int)(width*scale), (int)(height*scale));
             } catch (Exception e) {
                 e.printStackTrace();
             }

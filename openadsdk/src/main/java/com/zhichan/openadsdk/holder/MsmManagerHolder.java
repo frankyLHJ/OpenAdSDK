@@ -3,9 +3,10 @@ package com.zhichan.openadsdk.holder;
 import android.content.Context;
 
 import com.bytedance.sdk.openadsdk.TTAdConfig;
-import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
+import com.qq.e.comm.managers.GDTADManager;
+import com.zhichan.openadsdk.holder.union.MsmAdConfig;
 
 public class MsmManagerHolder {
 
@@ -25,6 +26,7 @@ public class MsmManagerHolder {
         TTAdSdk.getAdManager().requestPermissionIfNecessary(context);
     }
 
+    // 穿山甲初始化
     public static void init(Context context, MsmAdConfig config) {
         doInit(context, config);
     }
@@ -47,6 +49,13 @@ public class MsmManagerHolder {
             TTAdSdk.init(context, ttAdConfig);
             sInit = true;
         }
+    }
+
+    //---------------------广点通------------------//
+
+    // 广点通初始化
+    public static void initGDT(Context context, String appId) {
+        GDTADManager.getInstance().initWith(context, appId);
     }
 
 }

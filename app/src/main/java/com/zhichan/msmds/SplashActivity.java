@@ -1,4 +1,4 @@
-package com.zhichan.opensdk;
+package com.zhichan.msmds;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.zhichan.openadsdk.holder.MsmAdLoadHolder;
+import com.zhichan.openadsdk.holder.union.MsmAdLoadHolder;
 
 public class SplashActivity extends AppCompatActivity implements MsmAdLoadHolder.SplashAdListener {
 

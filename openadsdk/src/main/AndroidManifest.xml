@@ -10,10 +10,6 @@
             android:name=".view.activity.IntegralActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme" />
-        <activity
-            android:name=".view.activity.CommonActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaseAppTheme" />
 
         <provider
             android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
@@ -28,6 +24,15 @@
             android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
             android:authorities="${applicationId}.TTMultiProvider"
             android:exported="false" />
+        <provider
+            android:name="com.qq.e.comm.GDTFileProvider"
+            android:authorities="${applicationId}.gdt.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/gdt_file_path" />
+        </provider>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.zhichan.openadsdk.holder;
+package com.zhichan.openadsdk.holder.union;
 
 import android.content.Context;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.View;
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
+import com.zhichan.openadsdk.holder.MsmManagerHolder;
 
 /**
  * 开屏广告加载帮助类

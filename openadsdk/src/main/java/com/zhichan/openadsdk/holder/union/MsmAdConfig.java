@@ -1,9 +1,8 @@
-package com.zhichan.openadsdk.holder;
+package com.zhichan.openadsdk.holder.union;
 
 import com.bytedance.sdk.adnet.face.IHttpStack;
 import com.bytedance.sdk.openadsdk.TTCustomController;
 import com.bytedance.sdk.openadsdk.TTDownloadEventLogger;
-import com.bytedance.sdk.openadsdk.TTGlobalAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSecAbs;
 
 public class MsmAdConfig {

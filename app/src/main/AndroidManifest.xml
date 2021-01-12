@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhichan.opensdk">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.zhichan.msmds">
     <!-- 必要权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 可选权限 -->
@@ -33,6 +34,9 @@
         </activity>
         <activity
             android:name=".SplashActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashAdnetActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".DemoActivity"

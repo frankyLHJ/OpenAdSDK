@@ -1,10 +1,9 @@
-package com.zhichan.opensdk;
+package com.zhichan.msmds;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.zhichan.openadsdk.constant.MsmConstant;
-import com.zhichan.openadsdk.holder.MsmAdConfig;
+import com.zhichan.openadsdk.holder.union.MsmAdConfig;
 import com.zhichan.openadsdk.holder.MsmManagerHolder;
 
 public class MyApplication extends Application {
@@ -25,6 +24,8 @@ public class MyApplication extends Application {
                 //.httpStack(new MyOkStack3())//自定义网络库，demo中给出了okhttp3版本的样例，其余请自行开发或者咨询工作人员。
                 .build();
         MsmManagerHolder.init(this, msmAdConfig);
+
+        MsmManagerHolder.initGDT(this, "1110002906");
     }
 
 }

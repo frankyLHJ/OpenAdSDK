@@ -1,4 +1,4 @@
-package com.zhichan.opensdk;
+package com.zhichan.msmds;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zhichan.openadsdk.holder.MsmManagerHolder;
-import com.zhichan.openadsdk.holder.MsmRewardVideoAdLoadHolder;
+import com.zhichan.openadsdk.holder.union.MsmRewardVideoAdLoadHolder;
 
 public class MainActivity extends AppCompatActivity implements MsmRewardVideoAdLoadHolder.RewardVideoAdListener {
 
@@ -20,12 +20,22 @@ public class MainActivity extends AppCompatActivity implements MsmRewardVideoAdL
         // 动态权限请求，可选
         MsmManagerHolder.requestPermissionIfNecessary(this);
 
-        // 打开开屏页
+        // 打开穿山甲开屏页
         Button openSplash = findViewById(R.id.openSplash);
         openSplash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // 打开优量汇开屏页
+        Button openAdnetSplash = findViewById(R.id.openAdnetSplash);
+        openAdnetSplash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SplashAdnetActivity.class);
                 startActivity(intent);
             }
         });

@@ -6,10 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -26,15 +24,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.Toolbar;
 
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
 import com.zhichan.openadsdk.R;
-import com.zhichan.openadsdk.view.fragment.AgentWebFragment;
 import com.zhichan.openadsdk.view.widget.WebLayout;
+
+/**
+ *
+ * 继承BaseWebActivity可实现大部分功能，使用场景是必须使用activity的方式打开webview的情况，
+ *
+ * 一般情况尽量使用MsmIntegralFragment实现更加灵活
+ *
+ */
 
 public class BaseWebActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.zhichan.openadsdk.holder;
+package com.zhichan.openadsdk.holder.union;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,11 +11,12 @@ import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
+import com.zhichan.openadsdk.holder.MsmManagerHolder;
 import com.zhichan.openadsdk.view.dialog.DislikeDialog;
 
 import java.util.List;
 
-public class MsmNativeAdLoadHolder {
+public class MsmBannerAdLoadHolder {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -23,19 +24,19 @@ public class MsmNativeAdLoadHolder {
 
     private TTNativeExpressAd mTTAd;
 
-    private NativeAdListener nativeAdListener;
+    private BannerAdListener bannerAdListener;
 
-    public void setNativeAdListener(NativeAdListener nativeAdListener) {
-        this.nativeAdListener = nativeAdListener;
+    public void setBannerAdListener(BannerAdListener bannerAdListener) {
+        this.bannerAdListener = bannerAdListener;
     }
 
-    private static MsmNativeAdLoadHolder mSingleton = null;
-    private MsmNativeAdLoadHolder () {}
-    public static MsmNativeAdLoadHolder getInstance() {
+    private static MsmBannerAdLoadHolder mSingleton = null;
+    private MsmBannerAdLoadHolder () {}
+    public static MsmBannerAdLoadHolder getInstance() {
         if (mSingleton == null) {
-            synchronized (MsmNativeAdLoadHolder.class) {
+            synchronized (MsmBannerAdLoadHolder.class) {
                 if (mSingleton == null) {
-                    mSingleton = new MsmNativeAdLoadHolder();
+                    mSingleton = new MsmBannerAdLoadHolder();
                 }
             }
         }
@@ -43,21 +44,21 @@ public class MsmNativeAdLoadHolder {
     }
 
     /**
-     * 信息流广告加载方法
+     * Banner广告加载方法
      */
-    public void nativeAdLoad(final Context context, String codeId, int w, int h) {
+    public void bannerAdLoad(final Context context, String codeId, int w, int h) {
         mTTAdNative = MsmManagerHolder.get().createAdNative(context);
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId) //广告位id
                 .setSupportDeepLink(true)
                 .setAdCount(1) //请求广告数量为1到3条
-                .setExpressViewAcceptedSize(w,h) //必填：期望个性化模板广告view的size,单位dp
-                .setImageAcceptedSize(640,320) //这个参数设置即可，不影响个性化模板广告的size
+                .setExpressViewAcceptedSize(w,h) //期望个性化模板广告view的size,单位dp
+                .setImageAcceptedSize(640,320 )//这个参数设置即可，不影响个性化模板广告的size
                 .build();
-        mTTAdNative.loadNativeExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
+        mTTAdNative.loadBannerExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
             @Override
             public void onError(int i, String s) {
-                nativeAdListener.onNativeError(i, s);
+                bannerAdListener.onError(i, s);
             }
 
             @Override
@@ -66,6 +67,7 @@ public class MsmNativeAdLoadHolder {
                     return;
                 }
                 mTTAd = ads.get(0);
+                mTTAd.setSlideIntervalTime(30*1000);//设置轮播间隔 ms,不调用则不进行轮播展示
                 bindAdListener(mTTAd, context);
                 mTTAd.render();//调用render开始渲染广告
             }
@@ -89,7 +91,7 @@ public class MsmNativeAdLoadHolder {
             @Override
             public void onRenderFail(View view, String msg, int code) {
                 Log.e(TAG,"render fail: " + code);
-                nativeAdListener.onNativeRenderFail(view, msg, code);
+                bannerAdListener.onRenderFail(view, msg, code);
             }
 
             @Override
@@ -99,7 +101,8 @@ public class MsmNativeAdLoadHolder {
                 //在渲染成功回调时展示广告，提升体验
 //                mExpressContainer.removeAllViews();
 //                mExpressContainer.addView(view);
-                nativeAdListener.onNativeRenderSuccess(view, width, height);
+                bannerAdListener.onRenderSuccess(view, width, height);
+
             }
         });
         //dislike设置
@@ -111,35 +114,32 @@ public class MsmNativeAdLoadHolder {
 //        ad.setDownloadListener(new TTAppDownloadListener() {
 //            @Override
 //            public void onIdle() {
-//                TToast.show(NativeExpressActivity.this, "点击开始下载", Toast.LENGTH_LONG);
+//                Log.e(TAG,"onIdle: 点击开始下载");
 //            }
 //
 //            @Override
 //            public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-//                if (!mHasShowDownloadActive) {
-//                    mHasShowDownloadActive = true;
-//                    TToast.show(NativeExpressActivity.this, "下载中，点击暂停", Toast.LENGTH_LONG);
-//                }
+//                Log.e(TAG,"onDownloadActive: 下载中，点击暂停");
 //            }
 //
 //            @Override
 //            public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-//                TToast.show(NativeExpressActivity.this, "下载暂停，点击继续", Toast.LENGTH_LONG);
+//                Log.e(TAG,"onDownloadPaused: 下载暂停，点击继续");
 //            }
 //
 //            @Override
 //            public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-//                TToast.show(NativeExpressActivity.this, "下载失败，点击重新下载", Toast.LENGTH_LONG);
+//                Log.e(TAG,"onDownloadFailed: 下载失败，点击重新下载");
 //            }
 //
 //            @Override
 //            public void onInstalled(String fileName, String appName) {
-//                TToast.show(NativeExpressActivity.this, "安装完成，点击图片打开", Toast.LENGTH_LONG);
+//                Log.e(TAG,"onInstalled: 安装完成，点击图片打开");
 //            }
 //
 //            @Override
 //            public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-//                TToast.show(NativeExpressActivity.this, "点击安装", Toast.LENGTH_LONG);
+//                Log.e(TAG,"onDownloadFinished: 点击安装");
 //            }
 //        });
     }
@@ -165,7 +165,7 @@ public class MsmNativeAdLoadHolder {
                     Log.e(TAG,"onItemClick: " + filterWord.getName());
                     //用户选择不喜欢原因后，移除广告展示
 //                    mExpressContainer.removeAllViews();
-                    nativeAdListener.onNativeShield(filterWord.getName());
+                    bannerAdListener.onShield(filterWord.getName());
                 }
             });
             ad.setDislikeDialog(dislikeDialog);
@@ -178,7 +178,7 @@ public class MsmNativeAdLoadHolder {
                 Log.e(TAG,"onItemClick: " + value);
                 //用户选择不喜欢原因后，移除广告展示
 //                mExpressContainer.removeAllViews();
-                nativeAdListener.onNativeShield(value);
+                bannerAdListener.onShield(value);
             }
 
             @Override
@@ -200,10 +200,10 @@ public class MsmNativeAdLoadHolder {
         }
     }
 
-    public interface NativeAdListener {
-        void onNativeError(int i, String s);
-        void onNativeRenderFail(View view, String msg, int code);
-        void onNativeRenderSuccess(View view, float width, float height);
-        void onNativeShield(String filter);
+    public interface BannerAdListener {
+        void onError(int i, String s);
+        void onRenderFail(View view, String msg, int code);
+        void onRenderSuccess(View view, float width, float height);
+        void onShield(String filter);
     }
 }

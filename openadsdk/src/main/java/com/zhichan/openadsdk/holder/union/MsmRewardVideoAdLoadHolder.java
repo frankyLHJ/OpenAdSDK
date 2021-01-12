@@ -1,4 +1,4 @@
-package com.zhichan.openadsdk.holder;
+package com.zhichan.openadsdk.holder.union;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,7 @@ import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
+import com.zhichan.openadsdk.holder.MsmManagerHolder;
 
 /**
  * author : frankylee

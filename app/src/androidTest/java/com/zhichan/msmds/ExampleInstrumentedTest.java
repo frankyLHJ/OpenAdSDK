@@ -1,4 +1,4 @@
-package com.zhichan.opensdk;
+package com.zhichan.msmds;
 
 import android.content.Context;
 
