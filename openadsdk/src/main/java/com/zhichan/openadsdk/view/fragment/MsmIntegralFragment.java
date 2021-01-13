@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import com.just.agentweb.AgentWeb;
 import com.lcodecore.tkrefreshlayout.utils.DensityUtil;
 import com.zhichan.openadsdk.R;
+import com.zhichan.openadsdk.holder.adnet.MsmAdError;
+import com.zhichan.openadsdk.holder.adnet.MsmAdnetBannerAdLoadHolder;
 import com.zhichan.openadsdk.holder.union.MsmBannerAdLoadHolder;
 import com.zhichan.openadsdk.holder.union.MsmNativeAdLoadHolder;
 import com.zhichan.openadsdk.holder.union.MsmRewardVideoAdLoadHolder;
@@ -97,6 +99,62 @@ public class MsmIntegralFragment extends AgentWebFragment implements
             e.printStackTrace();
         }
 
+        MsmAdnetBannerAdLoadHolder.getInstance().setBannerAdnetAdListener(new MsmAdnetBannerAdLoadHolder.BannerAdnetAdListener() {
+            @Override
+            public void onNoAD(MsmAdError error) {
+                Log.i(TAG, "onNoAD: " + error.getErrorCode() + ",msg=" + error.getErrorMsg());
+            }
+
+            @Override
+            public void onADReceive(View view, int w, float scale) {
+                if (view != null) {
+                    view.setTranslationY(DensityUtil.dp2px(getActivity(),Float.parseFloat("100")));
+                    view.setTranslationX(DensityUtil.dp2px(getActivity(),Float.parseFloat("0")));
+                    View adV = adViews.get("bannerAd");
+                    mAgentWeb.getWebCreator().getWebView().removeView(adV);
+                    mAgentWeb.getWebCreator().getWebView().addView(view, new FrameLayout.LayoutParams(w,  Math.round(w / scale)));
+                    adViews.put("bannerAd", view);
+                    mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoBannerAd.onLoadSuccess({height:"+(w / scale)+"});");
+                }
+            }
+
+            @Override
+            public void onADExposure() {
+
+            }
+
+            @Override
+            public void onADClosed() {
+
+            }
+
+            @Override
+            public void onADClicked() {
+
+            }
+
+            @Override
+            public void onADLeftApplication() {
+
+            }
+
+            @Override
+            public void onADOpenOverlay() {
+
+            }
+
+            @Override
+            public void onADCloseOverlay() {
+
+            }
+        });
+
+        MsmAdnetBannerAdLoadHolder.getInstance().bannerAdLoad(
+                this.getActivity(),
+                "3041151305235739",
+                30,
+                640,
+                6.4F);
     }
 
     // ======================== Banner广告监听 ==================//
@@ -139,6 +197,7 @@ public class MsmIntegralFragment extends AgentWebFragment implements
         if (mAgentWeb.getWebCreator().getWebView() != null) {
             MsmBannerAdLoadHolder.getInstance().onDestroy();
             MsmNativeAdLoadHolder.getInstance().onDestroy();
+            MsmAdnetBannerAdLoadHolder.getInstance().onDestroy();
         }
     }
 

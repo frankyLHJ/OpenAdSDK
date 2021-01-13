@@ -185,9 +185,6 @@ public class SplashAdnetActivity extends AppCompatActivity implements MsmAdnetSp
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) {
-            if(keyCode == KeyEvent.KEYCODE_BACK){
-                return super.onKeyDown(keyCode, event);
-            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

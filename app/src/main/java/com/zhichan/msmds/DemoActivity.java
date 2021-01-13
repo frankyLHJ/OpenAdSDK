@@ -24,7 +24,8 @@ public class DemoActivity extends AppCompatActivity {
         msmIntegralFragment = MsmIntegralFragment.getInstance(mBundle = new Bundle());
         ft.add(R.id.container_framelayout, msmIntegralFragment, MsmIntegralFragment.class.getName());
 //        mBundle.putString(MsmIntegralFragment.URL_KEY, "https://wxapp.msmds.cn/h5/react_web/newSign");// 签到页
-        mBundle.putString(MsmIntegralFragment.URL_KEY, "http://192.168.0.222:8080/app/Sign");// 签到页http://192.168.0.222:8080/qsbk/indexPage
+//        mBundle.putString(MsmIntegralFragment.URL_KEY, "http://192.168.0.222:8080/app/Sign");// 签到页http://192.168.0.222:8080/qsbk/indexPage
+        mBundle.putString(MsmIntegralFragment.URL_KEY, "https://www.baidu.com/");
         mBundle.putBoolean(MsmIntegralFragment.SHOW_TOOLBAR, true); // 是否显示toolbar
         mBundle.putString(MsmIntegralFragment.APP_ID, "10000"); // appid
         mBundle.putString(MsmIntegralFragment.BANNER_CODE_ID, "945413865"); // banner广告位id
