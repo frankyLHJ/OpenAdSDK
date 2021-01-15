@@ -4,13 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.zhichan.openadsdk.holder.MsmManagerHolder;
+import com.zhichan.openadsdk.holder.adnet.MsmAdError;
+import com.zhichan.openadsdk.holder.adnet.MsmAdnetRewardVideoAdLoadHolder;
 import com.zhichan.openadsdk.holder.union.MsmRewardVideoAdLoadHolder;
 
-public class MainActivity extends AppCompatActivity implements MsmRewardVideoAdLoadHolder.RewardVideoAdListener {
+public class MainActivity extends AppCompatActivity implements
+        MsmAdnetRewardVideoAdLoadHolder.RewardVideoAdnetListener
+
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,36 +65,68 @@ public class MainActivity extends AppCompatActivity implements MsmRewardVideoAdL
 //                MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay(MainActivity.this);
 //            }
 //        });
-    }
 
+        MsmAdnetRewardVideoAdLoadHolder.getInstance().setRewardVideoAdnetAdListener(this);
 
-    @Override
-    public void onRewardError(int i, String s) {
+        Button loadReward = findViewById(R.id.load_reward);
+        loadReward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MsmAdnetRewardVideoAdLoadHolder.getInstance().rewardAdnetAdLoad(MainActivity.this, "2051256491220658");
+            }
+        });
 
-    }
-
-    @Override
-    public void onRewardAdClose() {
-
-    }
-
-    @Override
-    public void onRewardVideoComplete() {
-
-    }
-
-    @Override
-    public void onRewardVideoError() {
-
+        Button playReward = findViewById(R.id.play_reward);
+        playReward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MsmAdnetRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay(MainActivity.this);
+            }
+        });
     }
 
     @Override
-    public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
-
+    public void onAdLoaded() {
+        Log.i("AD_NET_REWARD", "onAdLoaded");
     }
 
     @Override
-    public void onSkippedVideo() {
+    public void onVideoCached() {
+        Log.i("AD_NET_REWARD", "onVideoCached");
+    }
 
+    @Override
+    public void onShow() {
+        Log.i("AD_NET_REWARD", "onShow");
+    }
+
+    @Override
+    public void onExpose() {
+        Log.i("AD_NET_REWARD", "onExpose");
+    }
+
+    @Override
+    public void onReward() {
+        Log.i("AD_NET_REWARD", "onReward");
+    }
+
+    @Override
+    public void onClick() {
+        Log.i("AD_NET_REWARD", "onClick");
+    }
+
+    @Override
+    public void onVideoComplete() {
+        Log.i("AD_NET_REWARD", "onVideoComplete");
+    }
+
+    @Override
+    public void onClose() {
+        Log.i("AD_NET_REWARD", "onClose");
+    }
+
+    @Override
+    public void onError(MsmAdError error) {
+        Log.i("AD_NET_REWARD", "onError, code:"+error.getErrorCode()+",msg:"+error.getErrorMsg());
     }
 }

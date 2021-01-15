@@ -78,6 +78,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     protected Map<String, View> adViews = new HashMap<>();// 存储所有广告
 
+    public String userData;
+
     /**
      * 用于方便打印测试
      */
@@ -269,6 +271,9 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+
+            // 这里注入买什么都省web端需要的信息，js代码由买什么都省APP提供
+
 
             if (timer.get(url) != null) {
                 long overTime = System.currentTimeMillis();

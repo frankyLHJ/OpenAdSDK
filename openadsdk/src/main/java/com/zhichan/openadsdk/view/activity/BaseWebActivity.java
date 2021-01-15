@@ -36,7 +36,7 @@ import com.zhichan.openadsdk.view.widget.WebLayout;
  *
  * 继承BaseWebActivity可实现大部分功能，使用场景是必须使用activity的方式打开webview的情况，
  *
- * 一般情况尽量使用MsmIntegralFragment实现更加灵活
+ * 一般情况尽量使用AgentWebFragment实现更加灵活
  *
  */
 

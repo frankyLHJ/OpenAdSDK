@@ -45,22 +45,24 @@ public class MsmAdnetBannerAdLoadHolder {
     /**
      * banner广告加载，使用外部容器接受广告view
      * @param activity
-     * @param container
      * @param codeId
      * @param refreshInterval
      * @param w
      * @param scale
      */
     public void bannerAdLoad(Activity activity, String codeId, int refreshInterval, int w, float scale) {
-
-        if(this.bv != null){
-            bv.destroy();
+        try {
+            if(this.bv != null){
+                bv.destroy();
+            }
+            this.adViewWidth = w;
+            this.scale = scale;
+            this.bv = new UnifiedBannerView(activity, codeId, bannerADListener);
+            this.bv.setRefresh(refreshInterval);
+            this.bv.loadAD();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        this.adViewWidth = w;
-        this.scale = scale;
-        this.bv = new UnifiedBannerView(activity, codeId, bannerADListener);
-        this.bv.setRefresh(refreshInterval);
-        this.bv.loadAD();
     }
 
     /**

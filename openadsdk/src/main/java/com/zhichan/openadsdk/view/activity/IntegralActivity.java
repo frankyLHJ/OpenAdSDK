@@ -6,8 +6,7 @@ public class IntegralActivity extends BaseWebActivity {
 
     @Override
     public String getUrl() {
-        return "https://wxapp.msmds.cn/h5/rn_web/#/sign";
-//        return "http://192.168.0.222:8080/#/sign";
+        return "";
     }
 
     @Override
