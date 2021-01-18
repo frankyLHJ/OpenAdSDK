@@ -1,5 +1,7 @@
 package com.zhichan.msmds;
 
+import com.zhichan.openadsdk.holder.AdType;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,6 +14,15 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        String adType = "adnet";
+        AdType type = AdType.fromTypeName(adType);
+        switch (type) {
+            case UNION:
+                System.out.println(type.getTypeName());
+                break;
+            case ADNET:
+                System.out.println("adnet");
+                break;
+        }
     }
 }

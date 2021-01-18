@@ -22,16 +22,32 @@ public class DemoActivity extends AppCompatActivity {
         FragmentTransaction ft = mFragmentManager.beginTransaction();
         Bundle mBundle  = new Bundle();
         msmIntegralFragment = MsmUniversalFragment.getInstance(mBundle);
-        msmIntegralFragment.injectedUserData(""); // 注入用户信息
+        String js = "(function(){\n" +
+                "            //注入用户信息\n" +
+                "            window.appUserInfo = function (){\n" +
+                "                return ${JSON.stringify(userData)};\n" +
+                "            };\n" +
+                "            \n" +
+                "            // 版本号\n" +
+                "            window.appInfo = function (){\n" +
+                "                return ${JSON.stringify(appInfo)};\n" +
+                "            };\n" +
+                "\n" +
+                "            //注入与原声交互的方法\n" +
+                "            window.sendMessageToApp = function (json){\n" +
+                "                window.ReactNativeWebView.postMessage(JSON.stringify(json));\n" +
+                "            };\n" +
+                "\n" +
+                "            // 删除美团外卖页面-“网页下单”按钮\n" +
+                "            setTimeout(function(){document.getElementsByClassName('button-container-custome')[0].children[2].remove();},0);\n" +
+                "            \n" +
+                "        })()";
+        msmIntegralFragment.injectedUserData(js); // 注入用户信息
+        msmIntegralFragment.injectedExtData(""); // 扩展内容，注入方法或者其他数据
         ft.add(R.id.container_framelayout, msmIntegralFragment, MsmUniversalFragment.class.getName());
 //        mBundle.putString(MsmIntegralFragment.URL_KEY, "https://wxapp.msmds.cn/h5/react_web/newSign");// 签到页
-//        mBundle.putString(MsmIntegralFragment.URL_KEY, "http://192.168.0.222:8080/app/Sign");// 签到页http://192.168.0.222:8080/qsbk/indexPage
-        mBundle.putString(MsmUniversalFragment.URL_KEY, "https://www.baidu.com/");
+        mBundle.putString(MsmUniversalFragment.URL_KEY, "http://192.168.31.222:8080/app/Sign");// 签到页http://192.168.0.222:8080/qsbk/indexPage
         mBundle.putBoolean(MsmUniversalFragment.SHOW_TOOLBAR, true); // 是否显示toolbar
-        mBundle.putString(MsmUniversalFragment.APP_ID, "10000"); // appid
-        mBundle.putString(MsmUniversalFragment.BANNER_CODE_ID, "945413865"); // banner广告位id
-        mBundle.putString(MsmUniversalFragment.NATIVE_CODE_ID, "945198258"); // 信息流广告位id
-        mBundle.putString(MsmUniversalFragment.REWARD_VIDEO_CODE_ID, "945198260"); // 激励视频广告位id
         ft.commit();
     }
 

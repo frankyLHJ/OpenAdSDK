@@ -46,7 +46,7 @@ public class MsmBannerAdLoadHolder {
     /**
      * Banner广告加载方法
      */
-    public void bannerAdLoad(final Context context, String codeId, int w, int h) {
+    public void bannerAdLoad(final Context context, String codeId, int w, int h, final String top, final String left) {
         mTTAdNative = MsmManagerHolder.get().createAdNative(context);
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId) //广告位id
@@ -68,7 +68,7 @@ public class MsmBannerAdLoadHolder {
                 }
                 mTTAd = ads.get(0);
                 mTTAd.setSlideIntervalTime(30*1000);//设置轮播间隔 ms,不调用则不进行轮播展示
-                bindAdListener(mTTAd, context);
+                bindAdListener(mTTAd, context, top, left);
                 mTTAd.render();//调用render开始渲染广告
             }
         });
@@ -76,7 +76,7 @@ public class MsmBannerAdLoadHolder {
     }
 
     //绑定广告行为
-    private void bindAdListener(TTNativeExpressAd ad, Context context) {
+    private void bindAdListener(TTNativeExpressAd ad, Context context, final String top, final String left) {
         ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
             @Override
             public void onAdClicked(View view, int type) {
@@ -101,7 +101,7 @@ public class MsmBannerAdLoadHolder {
                 //在渲染成功回调时展示广告，提升体验
 //                mExpressContainer.removeAllViews();
 //                mExpressContainer.addView(view);
-                bannerAdListener.onRenderSuccess(view, width, height);
+                bannerAdListener.onRenderSuccess(view, width, height, top, left);
 
             }
         });
@@ -203,7 +203,7 @@ public class MsmBannerAdLoadHolder {
     public interface BannerAdListener {
         void onError(int i, String s);
         void onRenderFail(View view, String msg, int code);
-        void onRenderSuccess(View view, float width, float height);
+        void onRenderSuccess(View view, float width, float height, String top, String left);
         void onShield(String filter);
     }
 }

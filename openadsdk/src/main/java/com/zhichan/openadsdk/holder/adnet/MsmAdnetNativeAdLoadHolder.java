@@ -22,6 +22,9 @@ public class MsmAdnetNativeAdLoadHolder {
 
     private NativeAdnetAdListener nativeAdnetAdListener;
 
+    private String top;
+    private String left;
+
     public void setNativeAdnetAdListener(NativeAdnetAdListener nativeAdnetAdListener) {
         this.nativeAdnetAdListener = nativeAdnetAdListener;
     }
@@ -45,8 +48,10 @@ public class MsmAdnetNativeAdLoadHolder {
      * @param codeId
      * @param w
      */
-    public void nativeAdLoad(Activity activity, String codeId, int w) {
+    public void nativeAdLoad(Activity activity, String codeId, int w, String top, String left) {
         try {
+            this.top = top;
+            this.left = left;
             // 广告的size，宽度由外部传递，高度自适应
             ADSize adSize = new ADSize(w, ADSize.AUTO_HEIGHT);
             // 广告加载对象
@@ -69,7 +74,7 @@ public class MsmAdnetNativeAdLoadHolder {
                 nativeExpressADView = list.get(0);
                 nativeExpressADView.render();
                 if (nativeAdnetAdListener != null) {
-                    nativeAdnetAdListener.onADLoaded(nativeExpressADView);
+                    nativeAdnetAdListener.onADLoaded(nativeExpressADView, top, left);
                 }
             }
         }
@@ -134,7 +139,7 @@ public class MsmAdnetNativeAdLoadHolder {
         public void onNoAD(AdError adError) {
             if (nativeAdnetAdListener != null) {
                 MsmAdError msmAdError = new MsmAdError(adError.getErrorCode(), adError.getErrorMsg());
-                nativeAdnetAdListener.onNoAD(msmAdError);
+                nativeAdnetAdListener.onNativeNoAD(msmAdError);
             }
         }
     };
@@ -147,8 +152,8 @@ public class MsmAdnetNativeAdLoadHolder {
     }
 
     public interface NativeAdnetAdListener {
-        void onADLoaded(View nv);
-        void onNoAD(MsmAdError error);
+        void onADLoaded(View nv, String top, String left);
+        void onNativeNoAD(MsmAdError error);
         void onRenderFail(View nv);
         void onRenderSuccess(View nv);
         void onADExposure(View nv);

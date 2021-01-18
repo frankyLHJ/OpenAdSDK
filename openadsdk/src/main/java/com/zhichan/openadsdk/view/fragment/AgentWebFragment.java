@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -50,10 +51,8 @@ import com.just.agentweb.WebViewClient;
 import com.zhichan.openadsdk.R;
 import com.zhichan.openadsdk.client.MiddlewareChromeClient;
 import com.zhichan.openadsdk.client.MiddlewareWebViewClient;
-import com.zhichan.openadsdk.common.CommonWebChromeClient;
 import com.zhichan.openadsdk.common.FragmentKeyDown;
 import com.zhichan.openadsdk.common.UIController;
-import com.zhichan.openadsdk.view.activity.BaseWebActivity;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -62,7 +61,6 @@ import java.util.Map;
 public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     private ImageView mBackImageView;
-    private View mLineView;
     protected FrameLayout webLayout;
     private ImageView mFinishImageView;
     private TextView mTitleTextView;
@@ -79,7 +77,12 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     protected Map<String, View> adViews = new HashMap<>();// 存储所有广告
 
     public String userData;
+    public String extendedData;
 
+    // 2秒点击10次打开菜单
+    final static int COUNTS = 10;// 点击次数
+    final static long DURATION = 2000;// 规定有效时间
+    long[] mHits = new long[COUNTS];
     /**
      * 用于方便打印测试
      */
@@ -261,11 +264,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             super.onPageStarted(view, url, favicon);
             Log.i(TAG, "mUrl:" + url + " onPageStarted  target:" + getUrl());
             timer.put(url, System.currentTimeMillis());
-            if (url.equals(getUrl())) {
-                pageNavigator(View.GONE);
-            } else {
-                pageNavigator(View.VISIBLE);
-            }
         }
 
         @Override
@@ -273,7 +271,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             super.onPageFinished(view, url);
 
             // 这里注入买什么都省web端需要的信息，js代码由买什么都省APP提供
-
+            mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:" + userData);
+            mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:" + extendedData);
 
             if (timer.get(url) != null) {
                 long overTime = System.currentTimeMillis();
@@ -312,11 +311,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
             super.doUpdateVisitedHistory(view, url, isReload);
             currentUrl=url;
-            if (url.equals(getUrl())) {
-                pageNavigator(View.GONE);
-            } else {
-                pageNavigator(View.VISIBLE);
-            }
         }
     };
 
@@ -332,9 +326,9 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     protected void initView(View view) {
         mBackImageView = (ImageView) view.findViewById(R.id.iv_back);
-        mLineView = view.findViewById(R.id.view_line);
         mFinishImageView = (ImageView) view.findViewById(R.id.iv_finish);
         mTitleTextView = (TextView) view.findViewById(R.id.toolbar_title);
+        mTitleTextView.setOnClickListener(mOnClickListener);
         mBackImageView.setOnClickListener(mOnClickListener);
         mFinishImageView.setOnClickListener(mOnClickListener);
         mMoreImageView = (ImageView) view.findViewById(R.id.iv_more);
@@ -344,13 +338,11 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         assert this.getArguments() != null;
         boolean showTool = this.getArguments().getBoolean(SHOW_TOOLBAR, true);
         toolLayout.setVisibility(showTool ? View.VISIBLE : View.GONE);
-        pageNavigator(View.GONE);
     }
 
-    private void pageNavigator(int tag) {
-
-        mBackImageView.setVisibility(tag);
-        mLineView.setVisibility(tag);
+    private void pageNavigator(boolean show) {
+        mMoreImageView.setVisibility(!show ? View.VISIBLE : View.GONE);
+        mFinishImageView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -365,9 +357,22 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 AgentWebFragment.this.getActivity().finish();
             } else if (id == R.id.iv_more) {
                 showPoPup(v);
+            } else if (id == R.id.toolbar_title) {
+                continuousClick();
             }
         }
     };
+
+    private void continuousClick() {
+        //每次点击时，数组向前移动一位
+        System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
+        //为数组最后一位赋值
+        mHits[mHits.length - 1] = SystemClock.uptimeMillis();
+        if (mHits[0] >= (SystemClock.uptimeMillis() - DURATION)) {
+            mHits = new long[COUNTS];//重新初始化数组
+            pageNavigator(false);
+        }
+    }
 
     private void showDialog() {
 
@@ -467,6 +472,9 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 //                        mExtraService.performReDownload();
 //                    }
 
+                return true;
+            } else if (itemId == R.id.close) {
+                AgentWebFragment.this.getActivity().finish();
                 return true;
             }
             return false;
@@ -590,5 +598,16 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     protected MiddlewareWebChromeBase getMiddlewareWebChrome() {
         return this.mMiddleWareWebChrome = new MiddlewareChromeClient() {
         };
+    }
+
+    /**
+     * 注入JS代码，这里注入买什么都省用户信息
+     */
+    public void injectedUserData(String js) {
+        this.userData = js;
+    }
+
+    public void injectedExtData(String js) {
+        this.extendedData = js;
     }
 }

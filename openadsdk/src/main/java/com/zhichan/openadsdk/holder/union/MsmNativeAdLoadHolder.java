@@ -46,7 +46,7 @@ public class MsmNativeAdLoadHolder {
     /**
      * 信息流广告加载方法
      */
-    public void nativeAdLoad(final Context context, String codeId, int w, int h) {
+    public void nativeAdLoad(final Context context, String codeId, int w, int h, final String top, final String left) {
         mTTAdNative = MsmManagerHolder.get().createAdNative(context);
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId) //广告位id
@@ -67,7 +67,7 @@ public class MsmNativeAdLoadHolder {
                     return;
                 }
                 mTTAd = ads.get(0);
-                bindAdListener(mTTAd, context);
+                bindAdListener(mTTAd, context, top, left);
                 mTTAd.render();//调用render开始渲染广告
             }
         });
@@ -75,7 +75,7 @@ public class MsmNativeAdLoadHolder {
     }
 
     //绑定广告行为
-    private void bindAdListener(TTNativeExpressAd ad, Context context) {
+    private void bindAdListener(TTNativeExpressAd ad, Context context, final String top, final String left) {
         ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
             @Override
             public void onAdClicked(View view, int type) {
@@ -100,7 +100,7 @@ public class MsmNativeAdLoadHolder {
                 //在渲染成功回调时展示广告，提升体验
 //                mExpressContainer.removeAllViews();
 //                mExpressContainer.addView(view);
-                nativeAdListener.onNativeRenderSuccess(view, width, height);
+                nativeAdListener.onNativeRenderSuccess(view, width, height, top, left);
             }
         });
         //dislike设置
@@ -204,7 +204,7 @@ public class MsmNativeAdLoadHolder {
     public interface NativeAdListener {
         void onNativeError(int i, String s);
         void onNativeRenderFail(View view, String msg, int code);
-        void onNativeRenderSuccess(View view, float width, float height);
+        void onNativeRenderSuccess(View view, float width, float height, String top, String left);
         void onNativeShield(String filter);
     }
 }

@@ -25,6 +25,10 @@ public class MsmAdnetBannerAdLoadHolder {
 
     private float scale;
 
+    private String top;
+
+    private String left;
+
     public void setBannerAdnetAdListener(BannerAdnetAdListener bannerAdnetAdListener) {
         this.bannerAdnetAdListener = bannerAdnetAdListener;
     }
@@ -50,13 +54,15 @@ public class MsmAdnetBannerAdLoadHolder {
      * @param w
      * @param scale
      */
-    public void bannerAdLoad(Activity activity, String codeId, int refreshInterval, int w, float scale) {
+    public void bannerAdLoad(Activity activity, String codeId, int refreshInterval, int w, float scale, String top, String left) {
         try {
             if(this.bv != null){
                 bv.destroy();
             }
             this.adViewWidth = w;
             this.scale = scale;
+            this.top = top;
+            this.left = left;
             this.bv = new UnifiedBannerView(activity, codeId, bannerADListener);
             this.bv.setRefresh(refreshInterval);
             this.bv.loadAD();
@@ -96,7 +102,7 @@ public class MsmAdnetBannerAdLoadHolder {
         public void onADReceive() {
             Log.i("onADReceive", "onADReceive: banner 广告加载成功");
             if (bannerAdnetAdListener != null) {
-                bannerAdnetAdListener.onADReceive(bv, adViewWidth, scale);
+                bannerAdnetAdListener.onADReceive(bv, adViewWidth, scale, top, left);
             }
         }
 
@@ -150,7 +156,7 @@ public class MsmAdnetBannerAdLoadHolder {
 
     public interface BannerAdnetAdListener {
         void onNoAD(MsmAdError error);
-        void onADReceive(View view, int w, float scale);
+        void onADReceive(View view, int w, float scale, String top, String left);
         void onADExposure();
         void onADClosed();
         void onADClicked();

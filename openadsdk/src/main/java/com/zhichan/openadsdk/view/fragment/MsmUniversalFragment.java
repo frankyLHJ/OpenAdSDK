@@ -1,6 +1,7 @@
 package com.zhichan.openadsdk.view.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +15,11 @@ import androidx.annotation.Nullable;
 import com.just.agentweb.AgentWeb;
 import com.lcodecore.tkrefreshlayout.utils.DensityUtil;
 import com.zhichan.openadsdk.R;
+import com.zhichan.openadsdk.holder.AdType;
+import com.zhichan.openadsdk.holder.adnet.MsmAdError;
 import com.zhichan.openadsdk.holder.adnet.MsmAdnetBannerAdLoadHolder;
+import com.zhichan.openadsdk.holder.adnet.MsmAdnetNativeAdLoadHolder;
+import com.zhichan.openadsdk.holder.adnet.MsmAdnetRewardVideoAdLoadHolder;
 import com.zhichan.openadsdk.holder.union.MsmBannerAdLoadHolder;
 import com.zhichan.openadsdk.holder.union.MsmNativeAdLoadHolder;
 import com.zhichan.openadsdk.holder.union.MsmRewardVideoAdLoadHolder;
@@ -24,26 +29,27 @@ import org.json.JSONObject;
 public class MsmUniversalFragment extends AgentWebFragment implements
         MsmBannerAdLoadHolder.BannerAdListener,
         MsmRewardVideoAdLoadHolder.RewardVideoAdListener,
-        MsmNativeAdLoadHolder.NativeAdListener
+        MsmNativeAdLoadHolder.NativeAdListener,
+        MsmAdnetBannerAdLoadHolder.BannerAdnetAdListener,
+        MsmAdnetRewardVideoAdLoadHolder.RewardVideoAdnetListener,
+        MsmAdnetNativeAdLoadHolder.NativeAdnetAdListener
+
 {
-    public static final String APP_ID = "APP_ID";
-    public static final String BANNER_CODE_ID = "banner_code_id";
-    public static final String NATIVE_CODE_ID = "native_code_id";
-    public static final String REWARD_VIDEO_CODE_ID = "reward_video_code_id";
-
-    private String top = "0";
-    private String nativeTop = "0";
-
-    private String left = "0";
-    private String nativeLeft = "0";
 
     public static MsmUniversalFragment getInstance(Bundle bundle) {
 
         MsmUniversalFragment msmIntegralFragment = new MsmUniversalFragment();
         if (msmIntegralFragment != null) {
+            // 穿山甲广告监听
             MsmRewardVideoAdLoadHolder.getInstance().setRewardVideoAdListener(msmIntegralFragment);
             MsmBannerAdLoadHolder.getInstance().setBannerAdListener(msmIntegralFragment);
             MsmNativeAdLoadHolder.getInstance().setNativeAdListener(msmIntegralFragment);
+
+            // 广点通广告监听
+            MsmAdnetRewardVideoAdLoadHolder.getInstance().setRewardVideoAdnetAdListener(msmIntegralFragment);
+            MsmAdnetBannerAdLoadHolder.getInstance().setBannerAdnetAdListener(msmIntegralFragment);
+            MsmAdnetNativeAdLoadHolder.getInstance().setNativeAdnetAdListener(msmIntegralFragment);
+
             msmIntegralFragment.setArguments(bundle);
         }
 
@@ -71,7 +77,7 @@ public class MsmUniversalFragment extends AgentWebFragment implements
         mAgentWeb.getWebCreator().getWebView().addJavascriptInterface(new MyJavascriptInterface(this.getActivity()), "msmdsInjected");
     }
 
-    // ======================== Banner广告监听 ==================//
+    // ======================== 穿山甲Banner广告监听 ==================//
     @Override
     public void onError(int i, String s) {
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoBannerAd.onLoadError();");
@@ -83,7 +89,7 @@ public class MsmUniversalFragment extends AgentWebFragment implements
     }
 
     @Override
-    public void onRenderSuccess(View view, float width, float height) {
+    public void onRenderSuccess(View view, float width, float height, String top, String left) {
         Log.i("MsmIntegralFragment", "onRenderSuccess: " + width);
         Log.i("MsmIntegralFragment", "onRenderSuccess: " + height);
         view.setTranslationY(DensityUtil.dp2px(this.getActivity(),Float.parseFloat(top)));
@@ -103,19 +109,60 @@ public class MsmUniversalFragment extends AgentWebFragment implements
         mAgentWeb.getWebCreator().getWebView().removeView(adV);
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoBannerAd.onHideManually();");
     }
-    // ======================== Banner广告监听 ==================//
+    // ======================== 穿山甲Banner广告监听 ==================//
 
+    // ======================== 广点通Banner广告监听 ==================//
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mAgentWeb.getWebCreator().getWebView() != null) {
-            MsmBannerAdLoadHolder.getInstance().onDestroy();
-            MsmNativeAdLoadHolder.getInstance().onDestroy();
-            MsmAdnetBannerAdLoadHolder.getInstance().onDestroy();
-        }
+    public void onNoAD(MsmAdError error) {
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoBannerAd.onLoadError();");
     }
 
-    // ======================== 激励视频广告监听 ==================//
+    @Override
+    public void onADReceive(View view, int w, float scale, String top, String left) {
+        view.setTranslationY(DensityUtil.dp2px(this.getActivity(),Float.parseFloat(top)));
+        view.setTranslationX(DensityUtil.dp2px(this.getActivity(),Float.parseFloat(left)));
+        View adV = adViews.get("bannerAd");
+        mAgentWeb.getWebCreator().getWebView().removeView(adV);
+        mAgentWeb.getWebCreator().getWebView().addView(view);
+        adViews.put("bannerAd", view);
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoBannerAd.onLoadSuccess({height:"+(w/scale)+"});");
+    }
+
+    @Override
+    public void onADExposure() {
+
+    }
+
+    @Override
+    public void onADClosed() {
+        Log.i(TAG, "onADClosed: " + mAgentWeb.getWebCreator().getWebView().getChildCount());
+        View adV = adViews.get("bannerAd");
+        mAgentWeb.getWebCreator().getWebView().removeView(adV);
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoBannerAd.onHideManually();");
+    }
+
+    @Override
+    public void onADClicked() {
+
+    }
+
+    @Override
+    public void onADLeftApplication() {
+
+    }
+
+    @Override
+    public void onADOpenOverlay() {
+
+    }
+
+    @Override
+    public void onADCloseOverlay() {
+
+    }
+    // ======================== 广点通Banner广告监听 ==================//
+
+    // ======================== 穿山甲激励视频广告监听 ==================//
     @Override
     public void onRewardError(int i, String s) {
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.playToutiaoRewardVideoAd.onRewardError(" + i + "," + s + ");");
@@ -145,9 +192,56 @@ public class MsmUniversalFragment extends AgentWebFragment implements
     public void onSkippedVideo() {
 
     }
-    // ======================== 激励视频广告监听 ==================//
+    // ======================== 穿山甲激励视频广告监听 ==================//
 
-    // ======================== 信息流广告监听 ==================//
+    // ======================== 广点通激励视频广告监听 ==================//
+    @Override
+    public void onAdLoaded() {
+
+    }
+
+    @Override
+    public void onVideoCached() {
+
+    }
+
+    @Override
+    public void onShow() {
+
+    }
+
+    @Override
+    public void onExpose() {
+
+    }
+
+    @Override
+    public void onReward() {
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.playToutiaoRewardVideoAd.onRewardVerify();");
+    }
+
+    @Override
+    public void onClick() {
+
+    }
+
+    @Override
+    public void onVideoComplete() {
+
+    }
+
+    @Override
+    public void onClose() {
+
+    }
+
+    @Override
+    public void onError(MsmAdError error) {
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.playToutiaoRewardVideoAd.onRewardError(" + error.getErrorCode() + "," + error.getErrorMsg() + ");");
+    }
+    // ======================== 广点通激励视频广告监听 ==================//
+
+    // ======================== 穿山甲信息流广告监听 ==================//
     @Override
     public void onNativeError(int i, String s) {
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoNativeAd.onNativeError(" + i + "," + s + ");");
@@ -159,9 +253,9 @@ public class MsmUniversalFragment extends AgentWebFragment implements
     }
 
     @Override
-    public void onNativeRenderSuccess(View view, float width, float height) {
-        view.setTranslationY(DensityUtil.dp2px(this.getActivity(),Float.parseFloat(nativeTop)));
-        view.setTranslationX(DensityUtil.dp2px(this.getActivity(),Float.parseFloat(nativeLeft)));
+    public void onNativeRenderSuccess(View view, float width, float height, String top, String left) {
+        view.setTranslationY(DensityUtil.dp2px(this.getActivity(),Float.parseFloat(top)));
+        view.setTranslationX(DensityUtil.dp2px(this.getActivity(),Float.parseFloat(left)));
         View adV = adViews.get("nativeAd");
         mAgentWeb.getWebCreator().getWebView().removeView(adV);
         mAgentWeb.getWebCreator().getWebView().addView(view);
@@ -175,7 +269,68 @@ public class MsmUniversalFragment extends AgentWebFragment implements
         mAgentWeb.getWebCreator().getWebView().removeView(adV);
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoNativeAd.onNativeShield();");
     }
-    // ======================== 信息流广告监听 ==================//
+    // ======================== 穿山甲信息流广告监听 ==================//
+
+    // ======================== 广点通信息流广告监听 ==================//
+    @Override
+    public void onNativeNoAD(MsmAdError error) {
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoNativeAd.onNativeError(" + error.getErrorCode() + "," + error.getErrorMsg() + ");");
+    }
+
+    @Override
+    public void onADLoaded(View view, String top, String left) {
+        view.setTranslationY(DensityUtil.dp2px(this.getActivity(),Float.parseFloat(top)));
+        view.setTranslationX(DensityUtil.dp2px(this.getActivity(),Float.parseFloat(left)));
+        View adV = adViews.get("nativeAd");
+        mAgentWeb.getWebCreator().getWebView().removeView(adV);
+        mAgentWeb.getWebCreator().getWebView().addView(view);
+        adViews.put("nativeAd", view);
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoNativeAd.onNativeRenderSuccess();");
+    }
+
+    @Override
+    public void onADClicked(View nv) {
+
+    }
+
+    @Override
+    public void onADExposure(View nv) {
+
+    }
+
+    @Override
+    public void onRenderSuccess(View nv) {
+
+    }
+
+    @Override
+    public void onRenderFail(View nv) {
+
+    }
+
+    @Override
+    public void onADClosed(View nv) {
+        View adV = adViews.get("nativeAd");
+        mAgentWeb.getWebCreator().getWebView().removeView(adV);
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoNativeAd.onNativeShield();");
+    }
+
+    @Override
+    public void onADCloseOverlay(View nv) {
+
+    }
+
+    @Override
+    public void onADLeftApplication(View nv) {
+
+    }
+
+    @Override
+    public void onADOpenOverlay(View nv) {
+
+    }
+    // ======================== 广点通信息流广告监听 ==================//
+
 
     public class MyJavascriptInterface {
         private Context context;
@@ -194,16 +349,44 @@ public class MsmUniversalFragment extends AgentWebFragment implements
             try {
                 //String转JSONObject
                 JSONObject result = new JSONObject(data);
+
+                // js传递的广告宽度和位置
                 String style = result.getString("style");
                 JSONObject styleObj = new JSONObject(style);
                 int width = Integer.parseInt(styleObj.getString("width"));
                 int height = Integer.parseInt(styleObj.getString("height"));
-                double scale = styleObj.has("scale") ? Double.parseDouble(styleObj.getString("scale")) : 1;
-                top = styleObj.has("top") ? styleObj.getString("top") : "0";
-                left = styleObj.has("left") ? styleObj.getString("left") : "0";
-                assert MsmUniversalFragment.this.getArguments() != null;
-                String codeId = MsmUniversalFragment.this.getArguments().getString(BANNER_CODE_ID);
-                MsmBannerAdLoadHolder.getInstance().bannerAdLoad(context, codeId, (int)(width*scale), (int)(height*scale));
+                float scale = styleObj.has("scale") ? Float.parseFloat(styleObj.getString("scale")) : 1;
+                String top = styleObj.has("top") ? styleObj.getString("top") : "0";
+                String left = styleObj.has("left") ? styleObj.getString("left") : "0";
+
+                // 广告位ID和广告类型（穿山甲或者广点通）
+                String codeID = result.getString("androidCodeId");
+                String adType = result.getString("adType");
+                int refreshInterval = result.getInt("refreshInterval");
+                AdType type = AdType.fromTypeName(adType);
+                // 广告加载
+                switch (type) {
+                    case ADNET:
+                        MsmAdnetBannerAdLoadHolder.getInstance().bannerAdLoad(
+                                (Activity) context,
+                                codeID,
+                                refreshInterval,
+                                width,
+                                scale,
+                                top,
+                                left
+                        );
+                        break;
+                    case UNION:
+                        MsmBannerAdLoadHolder.getInstance().bannerAdLoad(
+                                context,
+                                codeID,
+                                (int)(width*scale),
+                                (int)(height*scale),
+                                top,
+                                left);
+                        break;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -227,12 +410,24 @@ public class MsmUniversalFragment extends AgentWebFragment implements
          * 买什么都省h5页面加载激励视频广告
          */
         @JavascriptInterface
-        public void loadToutiaoRewardVideoAd() {
+        public void loadToutiaoRewardVideoAd(String data) {
             try {
                 Log.i(TAG, "loadToutiaoRewardVideoAd: --------------");
-                assert MsmUniversalFragment.this.getArguments() != null;
-                String codeId = MsmUniversalFragment.this.getArguments().getString(REWARD_VIDEO_CODE_ID);
-                MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdLoad(context, codeId);
+                //String转JSONObject
+                JSONObject result = new JSONObject(data);
+                // 广告位ID和广告类型（穿山甲或者广点通）
+                String codeID = result.getString("androidCodeId");
+                String adType = result.getString("adType");
+                AdType type = AdType.fromTypeName(adType);
+                switch (type) {
+                    case ADNET:
+                        MsmAdnetRewardVideoAdLoadHolder.getInstance().rewardAdnetAdLoad((Activity) context, codeID);
+                        break;
+                    case UNION:
+                        MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdLoad(context, codeID);
+                        break;
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -242,14 +437,37 @@ public class MsmUniversalFragment extends AgentWebFragment implements
          * 买什么都省h5页面播放激励视频广告
          */
         @JavascriptInterface
-        public void playToutiaoRewardVideoAd() {
-            Log.e(TAG, "playToutiaoRewardVideoAd: ---------");
-            MsmUniversalFragment.this.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay(context);
+        public void playToutiaoRewardVideoAd(String data) {
+            try {
+                Log.e(TAG, "playToutiaoRewardVideoAd: ---------");
+                //String转JSONObject
+                JSONObject result = new JSONObject(data);
+                // 广告位ID和广告类型（穿山甲或者广点通）
+                String adType = result.getString("adType");
+                AdType type = AdType.fromTypeName(adType);
+                switch (type) {
+                    case UNION:
+                        MsmUniversalFragment.this.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay(context);
+                            }
+                        });
+                        break;
+                    case ADNET:
+                        MsmUniversalFragment.this.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MsmAdnetRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay((Activity) context);
+                            }
+                        });
+                        break;
                 }
-            });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
         /**
@@ -262,15 +480,40 @@ public class MsmUniversalFragment extends AgentWebFragment implements
             try {
                 //String转JSONObject
                 JSONObject result = new JSONObject(data);
+                // 广告宽高和位置
                 String style = result.getString("style");
                 JSONObject styleObj = new JSONObject(style);
                 int width = Integer.parseInt(styleObj.getString("width"));
                 int height = Integer.parseInt(styleObj.getString("height"));
-                nativeTop = styleObj.has("top") ? styleObj.getString("top") : "0";
-                nativeLeft = styleObj.has("left") ? styleObj.getString("left") : "0";
-                assert MsmUniversalFragment.this.getArguments() != null;
-                String codeId = MsmUniversalFragment.this.getArguments().getString(NATIVE_CODE_ID);
-                MsmNativeAdLoadHolder.getInstance().nativeAdLoad(context, codeId, width, height);
+                String nativeTop = styleObj.has("top") ? styleObj.getString("top") : "0";
+                String  nativeLeft = styleObj.has("left") ? styleObj.getString("left") : "0";
+
+                // 广告位ID和广告类型（穿山甲或者广点通）
+                String codeID = result.getString("androidCodeId");
+                String adType = result.getString("adType");
+                AdType type = AdType.fromTypeName(adType);
+                switch (type) {
+                    case ADNET:
+                        MsmAdnetNativeAdLoadHolder.getInstance().nativeAdLoad(
+                                (Activity) context,
+                                codeID,
+                                width,
+                                nativeTop,
+                                nativeLeft
+                        );
+                        break;
+                    case UNION:
+                        MsmNativeAdLoadHolder.getInstance().nativeAdLoad(
+                                context,
+                                codeID,
+                                width,
+                                height,
+                                nativeTop,
+                                nativeLeft
+                        );
+                        break;
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -291,10 +534,14 @@ public class MsmUniversalFragment extends AgentWebFragment implements
         }
     }
 
-    /**
-     * 注入JS代码，这里注入买什么都省用户信息
-     */
-    public void injectedUserData(String js) {
-        this.userData = js;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mAgentWeb.getWebCreator().getWebView() != null) {
+            MsmBannerAdLoadHolder.getInstance().onDestroy();
+            MsmNativeAdLoadHolder.getInstance().onDestroy();
+            MsmAdnetBannerAdLoadHolder.getInstance().onDestroy();
+            MsmAdnetNativeAdLoadHolder.getInstance().onDestroy();
+        }
     }
 }

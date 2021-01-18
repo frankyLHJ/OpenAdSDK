@@ -49,7 +49,6 @@ public class BaseWebActivity extends AppCompatActivity {
 
 
     private ImageView mBackImageView;
-    private View mLineView;
     private ImageView mFinishImageView;
     private ImageView mMoreImageView;
     private PopupMenu mPopupMenu;
@@ -65,13 +64,11 @@ public class BaseWebActivity extends AppCompatActivity {
         mTitleTextView = (TextView) this.findViewById(R.id.toolbar_title);
 
         mBackImageView = (ImageView) this.findViewById(R.id.iv_back);
-        mLineView = this.findViewById(R.id.view_line);
         mFinishImageView = (ImageView) this.findViewById(R.id.iv_finish);
         mBackImageView.setOnClickListener(mOnClickListener);
         mFinishImageView.setOnClickListener(mOnClickListener);
         mMoreImageView = (ImageView) this.findViewById(R.id.iv_more);
         mMoreImageView.setOnClickListener(mOnClickListener);
-        pageNavigator(View.GONE);
 
         long p = System.currentTimeMillis();
 
@@ -113,12 +110,6 @@ public class BaseWebActivity extends AppCompatActivity {
             }
         }
     };
-
-    private void pageNavigator(int tag) {
-
-        mBackImageView.setVisibility(tag);
-        mLineView.setVisibility(tag);
-    }
 
     /**
      * 打开浏览器
@@ -245,22 +236,12 @@ public class BaseWebActivity extends AppCompatActivity {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             //do you  work
             Log.i("Info", "BaseWebActivity onPageStarted");
-            if (url.equals(getUrl())) {
-                pageNavigator(View.GONE);
-            } else {
-                pageNavigator(View.VISIBLE);
-            }
         }
 
         @Override
         public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
             super.doUpdateVisitedHistory(view, url, isReload);
             Log.i("doUpdateVisitedHistory", "doUpdateVisitedHistory: " + url);
-            if (url.equals(getUrl())) {
-                pageNavigator(View.GONE);
-            } else {
-                pageNavigator(View.VISIBLE);
-            }
         }
     };
     private WebChromeClient mWebChromeClient = new WebChromeClient() {

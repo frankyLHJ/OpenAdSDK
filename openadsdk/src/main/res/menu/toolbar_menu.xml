@@ -32,6 +32,10 @@
         android:visible="true"
         app:showAsAction="never"/>
 
-
+    <item
+        android:id="@+id/close"
+        android:title="关闭网页"
+        android:visible="true"
+        app:showAsAction="never"/>
 
 </menu>
