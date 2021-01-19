@@ -10,4 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:visibility="gone"
+        android:textColor="#66ccff"
+        android:id="@+id/tv_personalize_prompt"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
 </LinearLayout>

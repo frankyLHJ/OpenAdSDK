@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.bytedance.sdk.openadsdk.FilterWord;
+import com.bytedance.sdk.openadsdk.PersonalizationPrompt;
 import com.bytedance.sdk.openadsdk.TTDislikeDialogAbstract;
 import com.bytedance.sdk.openadsdk.dislike.TTDislikeListView;
 import com.zhichan.openadsdk.R;
@@ -20,14 +21,19 @@ import com.zhichan.openadsdk.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Create by hanweiwei on 14/12/2018
+ */
 public class DislikeDialog extends TTDislikeDialogAbstract {
     final List<FilterWord> mList;
+    final PersonalizationPrompt mPersonalizationPrompt;
     private OnDislikeItemClick mOnDislikeItemClick;
 
-    public DislikeDialog(@NonNull Context context, List<FilterWord> list) {
+    public DislikeDialog(@NonNull Context context, List<FilterWord> list, PersonalizationPrompt personalizationPrompt) {
         super(context);
 
         this.mList = initData(list);
+        mPersonalizationPrompt = personalizationPrompt;
     }
 
     public void setOnDislikeItemClick(OnDislikeItemClick onDislikeItemClick) {
@@ -70,6 +76,11 @@ public class DislikeDialog extends TTDislikeDialogAbstract {
                 }
             }
         });
+        if (mPersonalizationPrompt != null) {
+            TextView textView = findViewById(R.id.tv_personalize_prompt);
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(mPersonalizationPrompt.getName());
+        }
 
     }
 
@@ -81,6 +92,11 @@ public class DislikeDialog extends TTDislikeDialogAbstract {
     @Override
     public int[] getTTDislikeListViewIds() {
         return new int[]{R.id.lv_dislike_custom};
+    }
+
+    @Override
+    public int[] getPersonalizationPromptIds() {
+        return new int[]{R.id.tv_personalize_prompt};
     }
 
     @Override

@@ -103,10 +103,10 @@ public class MsmRewardVideoAdLoadHolder {
                     }
 
                     @Override
-                    public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
-                        Log.i(TAG, "verify:"+rewardVerify+" amount:"+rewardAmount+
-                                " name:"+rewardName);
-                        rewardVideoAdListener.onRewardVerify(rewardVerify, rewardAmount, rewardName);
+                    public void onRewardVerify(boolean b, int i, String s, int i1, String s1) {
+                        Log.i(TAG, "verify:"+b+" amount:"+i+
+                                " name:"+s);
+                        rewardVideoAdListener.onRewardVerify(b, i, s);
                     }
 
                     @Override

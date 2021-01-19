@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.FilterWord;
+import com.bytedance.sdk.openadsdk.PersonalizationPrompt;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
@@ -153,11 +154,12 @@ public class MsmBannerAdLoadHolder {
         if (customStyle) {
             //使用自定义样式
             List<FilterWord> words = ad.getFilterWords();
+            PersonalizationPrompt personalizationPrompt = ad.getPersonalizationPrompt();
             if (words == null || words.isEmpty()) {
                 return;
             }
 
-            final DislikeDialog dislikeDialog = new DislikeDialog(context, words);
+            final DislikeDialog dislikeDialog = new DislikeDialog(context, words, personalizationPrompt);
             dislikeDialog.setOnDislikeItemClick(new DislikeDialog.OnDislikeItemClick() {
                 @Override
                 public void onItemClick(FilterWord filterWord) {
