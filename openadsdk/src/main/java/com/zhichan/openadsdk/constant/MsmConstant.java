@@ -67,7 +67,7 @@ public class MsmConstant {
         HOME_GIFT_BONUS("home_gift_bonus"),
         GAME_START_BONUS("game_start_bonus"),
         GAME_REDUCE_WAITING("geme_reduce_waiting"),
-        GAME_MORE_KLLKRTUNITIES(aj.r("game_more_kllkrtunities")),
+        GAME_MORE_KLLKRTUNITIES(("game_more_kllkrtunities")),
         GAME_FINISH_REWARDS("game_finish_rewards"),
         GAME_GIFT_BONUS("game_gift_bonus");
 
