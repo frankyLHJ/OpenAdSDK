@@ -13,6 +13,8 @@ import com.zhichan.openadsdk.holder.adnet.MsmAdError;
 import com.zhichan.openadsdk.holder.adnet.MsmAdnetRewardVideoAdLoadHolder;
 import com.zhichan.openadsdk.holder.union.MsmRewardVideoAdLoadHolder;
 
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity implements
         MsmAdnetRewardVideoAdLoadHolder.RewardVideoAdnetListener
 
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onReward() {
+    public void onReward(Map<String, Object> map) {
         Log.i("AD_NET_REWARD", "onReward");
     }
 

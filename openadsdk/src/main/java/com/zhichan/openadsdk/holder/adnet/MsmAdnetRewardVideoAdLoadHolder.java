@@ -11,6 +11,8 @@ import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAD;
 import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAdListener;
 import com.qq.e.comm.util.AdError;
 
+import java.util.Map;
+
 /**
  * author : frankylee
  * date : 2021/1/15 11:17 AM
@@ -141,9 +143,9 @@ public class MsmAdnetRewardVideoAdLoadHolder {
          * 激励视频触发激励（观看视频大于一定时长或者视频播放完毕）
          */
         @Override
-        public void onReward() {
+        public void onReward(Map<String, Object> map) {
             if (rewardVideoAdnetListener != null) {
-                rewardVideoAdnetListener.onReward();
+                rewardVideoAdnetListener.onReward(map);
             }
         }
 
@@ -194,7 +196,7 @@ public class MsmAdnetRewardVideoAdLoadHolder {
         void onVideoCached();
         void onShow();
         void onExpose();
-        void onReward();
+        void onReward(Map<String, Object> map);
         void onClick();
         void onVideoComplete();
         void onClose();

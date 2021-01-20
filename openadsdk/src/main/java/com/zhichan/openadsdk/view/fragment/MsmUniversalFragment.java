@@ -26,6 +26,8 @@ import com.zhichan.openadsdk.holder.union.MsmRewardVideoAdLoadHolder;
 
 import org.json.JSONObject;
 
+import java.util.Map;
+
 public class MsmUniversalFragment extends AgentWebFragment implements
         MsmBannerAdLoadHolder.BannerAdListener,
         MsmRewardVideoAdLoadHolder.RewardVideoAdListener,
@@ -216,7 +218,7 @@ public class MsmUniversalFragment extends AgentWebFragment implements
     }
 
     @Override
-    public void onReward() {
+    public void onReward(Map<String, Object> map) {
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.playToutiaoRewardVideoAd.onRewardVerify();");
     }
 
