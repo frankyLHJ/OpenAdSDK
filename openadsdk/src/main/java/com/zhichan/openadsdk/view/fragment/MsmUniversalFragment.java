@@ -507,7 +507,6 @@ public class MsmUniversalFragment extends AgentWebFragment implements
                                 context,
                                 codeID,
                                 width,
-                                height,
                                 nativeTop,
                                 nativeLeft
                         );
