@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,20 @@ public class MsmUniversalFragment extends AgentWebFragment implements
         initView(view);
 
         mAgentWeb.getWebCreator().getWebView().addJavascriptInterface(new MyJavascriptInterface(this.getActivity()), "msmdsInjected");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MsmAdnetNativeAdLoadHolder.getInstance().nativeAdLoad(
+                        getActivity(),
+                        "4001950470095207",
+                        320,
+                        "100",
+                        "10"
+                );
+            }
+        }, 5000);
+
     }
 
     // ======================== 穿山甲Banner广告监听 ==================//
