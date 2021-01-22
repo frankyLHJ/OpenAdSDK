@@ -9,7 +9,7 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
 // 版本号，下次更新是只需要更改版本号即可
-version = "1.0.10"
+version = "1.0.13"
 group = "com.zhichan";
 
 //生成源文件

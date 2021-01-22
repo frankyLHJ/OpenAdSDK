@@ -70,6 +70,7 @@ public class MsmNativeAdLoadHolder {
                 mTTAd = ads.get(0);
                 bindAdListener(mTTAd, context, top, left);
                 mTTAd.render();//调用render开始渲染广告
+                nativeAdListener.onNativeExpressAdLoad();
             }
         });
 
@@ -81,6 +82,7 @@ public class MsmNativeAdLoadHolder {
             @Override
             public void onAdClicked(View view, int type) {
                 Log.i(TAG, "onAdClicked: " + type);
+                nativeAdListener.onNativeAdClicked(view, type);
             }
 
             @Override
@@ -204,6 +206,8 @@ public class MsmNativeAdLoadHolder {
     }
 
     public interface NativeAdListener {
+        void onNativeExpressAdLoad();
+        void onNativeAdClicked(View view, int type);
         void onNativeError(int i, String s);
         void onNativeRenderFail(View view, String msg, int code);
         void onNativeRenderSuccess(View view, float width, float height, String top, String left);

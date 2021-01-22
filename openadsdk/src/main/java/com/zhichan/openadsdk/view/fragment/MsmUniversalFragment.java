@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.just.agentweb.AgentWeb;
 import com.lcodecore.tkrefreshlayout.utils.DensityUtil;
+import com.qq.e.ads.nativ.NativeExpressADView;
 import com.zhichan.openadsdk.R;
 import com.zhichan.openadsdk.holder.AdType;
 import com.zhichan.openadsdk.holder.adnet.MsmAdError;
@@ -95,6 +96,18 @@ public class MsmUniversalFragment extends AgentWebFragment implements
     }
 
     // ======================== 穿山甲Banner广告监听 ==================//
+
+
+    @Override
+    public void onBannerExpressAdLoad() {
+
+    }
+
+    @Override
+    public void onBannerAdClicked(View view, int type) {
+
+    }
+
     @Override
     public void onError(int i, String s) {
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoBannerAd.onLoadError();");
@@ -259,6 +272,18 @@ public class MsmUniversalFragment extends AgentWebFragment implements
     // ======================== 广点通激励视频广告监听 ==================//
 
     // ======================== 穿山甲信息流广告监听 ==================//
+
+
+    @Override
+    public void onNativeExpressAdLoad() {
+
+    }
+
+    @Override
+    public void onNativeAdClicked(View view, int type) {
+
+    }
+
     @Override
     public void onNativeError(int i, String s) {
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoNativeAd.onNativeError(" + i + "," + s + ");");
@@ -302,6 +327,8 @@ public class MsmUniversalFragment extends AgentWebFragment implements
         mAgentWeb.getWebCreator().getWebView().removeView(adV);
         mAgentWeb.getWebCreator().getWebView().addView(view);
         adViews.put("nativeAd", view);
+        Log.i("height-meu", "onADLoaded: " + view.getHeight());
+        Log.i("height-meu", "onADLoaded: " + view.getMeasuredHeight());
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:window.msmdsInjected.showToutiaoNativeAd.onNativeRenderSuccess();");
     }
 
@@ -312,12 +339,14 @@ public class MsmUniversalFragment extends AgentWebFragment implements
 
     @Override
     public void onADExposure(View nv) {
-
+        Log.i("height-meu", "onADExposure: " + nv.getHeight());
+        Log.i("height-meu", "onADExposure: " + nv.getMeasuredHeight());
     }
 
     @Override
     public void onRenderSuccess(View nv) {
-
+        Log.i("height-meu", "onRenderSuccess: " + nv.getHeight());
+        Log.i("height-meu", "onRenderSuccess: " + nv.getMeasuredHeight());
     }
 
     @Override

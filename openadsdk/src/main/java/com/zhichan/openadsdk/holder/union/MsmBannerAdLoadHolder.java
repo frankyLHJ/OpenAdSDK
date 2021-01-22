@@ -71,6 +71,7 @@ public class MsmBannerAdLoadHolder {
                 mTTAd.setSlideIntervalTime(30*1000);//设置轮播间隔 ms,不调用则不进行轮播展示
                 bindAdListener(mTTAd, context, top, left);
                 mTTAd.render();//调用render开始渲染广告
+                bannerAdListener.onBannerExpressAdLoad();
             }
         });
 
@@ -82,6 +83,7 @@ public class MsmBannerAdLoadHolder {
             @Override
             public void onAdClicked(View view, int type) {
                 Log.i(TAG, "onAdClicked: " + type);
+                bannerAdListener.onBannerAdClicked(view, type);
             }
 
             @Override
@@ -203,6 +205,8 @@ public class MsmBannerAdLoadHolder {
     }
 
     public interface BannerAdListener {
+        void onBannerExpressAdLoad();
+        void onBannerAdClicked(View view, int type);
         void onError(int i, String s);
         void onRenderFail(View view, String msg, int code);
         void onRenderSuccess(View view, float width, float height, String top, String left);
