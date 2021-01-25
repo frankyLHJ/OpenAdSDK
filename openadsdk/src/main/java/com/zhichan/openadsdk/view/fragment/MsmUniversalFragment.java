@@ -3,6 +3,7 @@ package com.zhichan.openadsdk.view.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 import com.just.agentweb.AgentWeb;
 import com.lcodecore.tkrefreshlayout.utils.DensityUtil;
 import com.qq.e.ads.nativ.NativeExpressADView;
+import com.zhichan.openadsdk.BuildConfig;
 import com.zhichan.openadsdk.R;
 import com.zhichan.openadsdk.holder.AdType;
 import com.zhichan.openadsdk.holder.adnet.MsmAdError;
@@ -80,18 +82,18 @@ public class MsmUniversalFragment extends AgentWebFragment implements
 
         mAgentWeb.getWebCreator().getWebView().addJavascriptInterface(new MyJavascriptInterface(this.getActivity()), "msmdsInjected");
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                MsmAdnetNativeAdLoadHolder.getInstance().nativeAdLoad(
-                        getActivity(),
-                        "4001950470095207",
-                        320,
-                        "100",
-                        "10"
-                );
-            }
-        }, 5000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                MsmAdnetNativeAdLoadHolder.getInstance().nativeAdLoad(
+//                        getActivity(),
+//                        "4001950470095207",
+//                        320,
+//                        "300",
+//                        "10"
+//                );
+//            }
+//        }, 5000);
 
     }
 

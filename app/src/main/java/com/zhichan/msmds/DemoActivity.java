@@ -23,8 +23,8 @@ public class DemoActivity extends AppCompatActivity {
         Bundle mBundle  = new Bundle();
         msmIntegralFragment = MsmUniversalFragment.getInstance(mBundle);
         ft.add(R.id.container_framelayout, msmIntegralFragment, MsmUniversalFragment.class.getName());
-//        mBundle.putString(MsmIntegralFragment.URL_KEY, "https://wxapp.msmds.cn/h5/react_web/newSign");// 签到页
-        mBundle.putString(MsmUniversalFragment.URL_KEY, "https://www.baidu.com");// 签到页http://192.168.0.222:8080/qsbk/indexPage
+//        mBundle.putString(MsmUniversalFragment.URL_KEY, "https://wxapp.msmds.cn/h5/react_web/newSign");// 签到页
+        mBundle.putString(MsmUniversalFragment.URL_KEY, "https://www.baidu.com");// 签到页
         mBundle.putBoolean(MsmUniversalFragment.SHOW_TOOLBAR, true); // 是否显示toolbar
         ft.commit();
     }
