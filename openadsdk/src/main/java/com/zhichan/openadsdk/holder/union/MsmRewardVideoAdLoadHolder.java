@@ -119,7 +119,7 @@ public class MsmRewardVideoAdLoadHolder {
 
             @Override
             public void onRewardVideoCached() {
-
+                rewardVideoAdListener.onRewardVideoCached();
             }
         });
 
@@ -141,7 +141,7 @@ public class MsmRewardVideoAdLoadHolder {
         void onRewardVideoError();
         void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName);
         void onSkippedVideo();
-
+        void onRewardVideoCached();
     }
 
 }

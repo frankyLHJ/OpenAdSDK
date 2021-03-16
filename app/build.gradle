@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        applicationId "com.zhichan.msmds"
+        applicationId "com.unicom.wopay"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1

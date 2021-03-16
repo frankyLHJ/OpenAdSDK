@@ -82,19 +82,6 @@ public class MsmUniversalFragment extends AgentWebFragment implements
 
         mAgentWeb.getWebCreator().getWebView().addJavascriptInterface(new MyJavascriptInterface(this.getActivity()), "msmdsInjected");
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                MsmAdnetNativeAdLoadHolder.getInstance().nativeAdLoad(
-//                        getActivity(),
-//                        "4001950470095207",
-//                        320,
-//                        "300",
-//                        "10"
-//                );
-//            }
-//        }, 5000);
-
     }
 
     // ======================== 穿山甲Banner广告监听 ==================//
@@ -224,6 +211,12 @@ public class MsmUniversalFragment extends AgentWebFragment implements
     public void onSkippedVideo() {
 
     }
+
+    @Override
+    public void onRewardVideoCached() {
+
+    }
+
     // ======================== 穿山甲激励视频广告监听 ==================//
 
     // ======================== 广点通激励视频广告监听 ==================//
