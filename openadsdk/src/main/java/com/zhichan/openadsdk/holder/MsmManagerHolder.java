@@ -1,11 +1,13 @@
 package com.zhichan.openadsdk.holder;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.bytedance.sdk.openadsdk.TTAdConfig;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.qq.e.comm.managers.GDTADManager;
+import com.qq.e.comm.managers.setting.GlobalSetting;
 import com.zhichan.openadsdk.holder.union.MsmAdConfig;
 
 public class MsmManagerHolder {

@@ -25,7 +25,7 @@ public class MyApplication extends Application {
                 .build();
         MsmManagerHolder.init(this, msmAdConfig);
 
-        MsmManagerHolder.initGDT(this, "1111400298");
+        MsmManagerHolder.initGDT(this, "1110002906");
     }
 
 }

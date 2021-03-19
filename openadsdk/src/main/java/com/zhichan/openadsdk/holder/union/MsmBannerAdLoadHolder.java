@@ -68,7 +68,7 @@ public class MsmBannerAdLoadHolder {
                     return;
                 }
                 mTTAd = ads.get(0);
-                mTTAd.setSlideIntervalTime(30*1000);//设置轮播间隔 ms,不调用则不进行轮播展示
+//                mTTAd.setSlideIntervalTime(30*1000);//设置轮播间隔 ms,不调用则不进行轮播展示
                 bindAdListener(mTTAd, context, top, left);
                 mTTAd.render();//调用render开始渲染广告
                 bannerAdListener.onBannerExpressAdLoad();
