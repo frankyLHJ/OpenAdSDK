@@ -11,7 +11,6 @@ import android.widget.Button;
 import com.zhichan.openadsdk.holder.MsmManagerHolder;
 import com.zhichan.openadsdk.holder.adnet.MsmAdError;
 import com.zhichan.openadsdk.holder.adnet.MsmAdnetRewardVideoAdLoadHolder;
-import com.zhichan.openadsdk.holder.union.MsmRewardVideoAdLoadHolder;
 
 import java.util.Map;
 
@@ -20,10 +19,14 @@ public class MainActivity extends AppCompatActivity implements
 
 {
 
+    private MsmAdnetRewardVideoAdLoadHolder msmAdnetRewardVideoAdLoadHolder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        msmAdnetRewardVideoAdLoadHolder = new MsmAdnetRewardVideoAdLoadHolder();
 
         // 动态权限请求，可选
         MsmManagerHolder.requestPermissionIfNecessary(this);
@@ -68,13 +71,13 @@ public class MainActivity extends AppCompatActivity implements
 //            }
 //        });
 
-        MsmAdnetRewardVideoAdLoadHolder.getInstance().setRewardVideoAdnetAdListener(this);
+        msmAdnetRewardVideoAdLoadHolder.setRewardVideoAdnetAdListener(this);
 
         Button loadReward = findViewById(R.id.load_reward);
         loadReward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MsmAdnetRewardVideoAdLoadHolder.getInstance().rewardAdnetAdLoad(MainActivity.this, "2051256491220658");
+                msmAdnetRewardVideoAdLoadHolder.rewardAdnetAdLoad(MainActivity.this, "2051256491220658");
             }
         });
 
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements
         playReward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MsmAdnetRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay(MainActivity.this);
+                msmAdnetRewardVideoAdLoadHolder.rewardVideoAdPlay(MainActivity.this);
             }
         });
     }

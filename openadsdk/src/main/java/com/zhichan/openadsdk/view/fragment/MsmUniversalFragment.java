@@ -42,17 +42,22 @@ public class MsmUniversalFragment extends AgentWebFragment implements
 
 {
 
+    private static MsmRewardVideoAdLoadHolder msmRewardVideoAdLoadHolder;
+    private static MsmAdnetRewardVideoAdLoadHolder msmAdnetRewardVideoAdLoadHolder;
+
     public static MsmUniversalFragment getInstance(Bundle bundle) {
 
         MsmUniversalFragment msmIntegralFragment = new MsmUniversalFragment();
         if (msmIntegralFragment != null) {
             // 穿山甲广告监听
-            MsmRewardVideoAdLoadHolder.getInstance().setRewardVideoAdListener(msmIntegralFragment);
+            msmRewardVideoAdLoadHolder = new MsmRewardVideoAdLoadHolder();
+            msmRewardVideoAdLoadHolder.setRewardVideoAdListener(msmIntegralFragment);
             MsmBannerAdLoadHolder.getInstance().setBannerAdListener(msmIntegralFragment);
             MsmNativeAdLoadHolder.getInstance().setNativeAdListener(msmIntegralFragment);
 
             // 广点通广告监听
-            MsmAdnetRewardVideoAdLoadHolder.getInstance().setRewardVideoAdnetAdListener(msmIntegralFragment);
+            msmAdnetRewardVideoAdLoadHolder = new MsmAdnetRewardVideoAdLoadHolder();
+            msmAdnetRewardVideoAdLoadHolder.setRewardVideoAdnetAdListener(msmIntegralFragment);
             MsmAdnetBannerAdLoadHolder.getInstance().setBannerAdnetAdListener(msmIntegralFragment);
             MsmAdnetNativeAdLoadHolder.getInstance().setNativeAdnetAdListener(msmIntegralFragment);
 
@@ -462,10 +467,10 @@ public class MsmUniversalFragment extends AgentWebFragment implements
                 AdType type = AdType.fromTypeName(adType);
                 switch (type) {
                     case ADNET:
-                        MsmAdnetRewardVideoAdLoadHolder.getInstance().rewardAdnetAdLoad((Activity) context, codeID);
+                        msmAdnetRewardVideoAdLoadHolder.rewardAdnetAdLoad((Activity) context, codeID);
                         break;
                     case UNION:
-                        MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdLoad(context, codeID);
+                        msmRewardVideoAdLoadHolder.rewardVideoAdLoad(context, codeID);
                         break;
                 }
 
@@ -491,7 +496,7 @@ public class MsmUniversalFragment extends AgentWebFragment implements
                         MsmUniversalFragment.this.getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                MsmRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay(context);
+                                msmRewardVideoAdLoadHolder.rewardVideoAdPlay(context);
                             }
                         });
                         break;
@@ -499,7 +504,7 @@ public class MsmUniversalFragment extends AgentWebFragment implements
                         MsmUniversalFragment.this.getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                MsmAdnetRewardVideoAdLoadHolder.getInstance().rewardVideoAdPlay((Activity) context);
+                                msmAdnetRewardVideoAdLoadHolder.rewardVideoAdPlay((Activity) context);
                             }
                         });
                         break;

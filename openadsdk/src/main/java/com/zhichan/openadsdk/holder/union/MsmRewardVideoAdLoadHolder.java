@@ -7,6 +7,7 @@ import android.util.Log;
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.zhichan.openadsdk.holder.MsmManagerHolder;
 
@@ -27,19 +28,6 @@ public class MsmRewardVideoAdLoadHolder {
 
     public void setRewardVideoAdListener(RewardVideoAdListener rewardVideoAdListener) {
         this.rewardVideoAdListener = rewardVideoAdListener;
-    }
-
-    private static MsmRewardVideoAdLoadHolder mSingleton = null;
-    private MsmRewardVideoAdLoadHolder () {}
-    public static MsmRewardVideoAdLoadHolder getInstance() {
-        if (mSingleton == null) {
-            synchronized (MsmRewardVideoAdLoadHolder.class) {
-                if (mSingleton == null) {
-                    mSingleton = new MsmRewardVideoAdLoadHolder();
-                }
-            }
-        }
-        return mSingleton;
     }
 
     /**
@@ -66,63 +54,87 @@ public class MsmRewardVideoAdLoadHolder {
             @Override
             public void onError(int i, String s) {
                 Log.i(TAG, "onError: " + i + ",msg:" +s);
-                rewardVideoAdListener.onRewardError(i, s);
+                if (rewardVideoAdListener != null) {
+                    rewardVideoAdListener.onRewardError(i, s);
+                }
             }
 
             @Override
             public void onRewardVideoAdLoad(TTRewardVideoAd ttRewardVideoAd) {
                 mttRewardVideoAd = ttRewardVideoAd;
-                ttRewardVideoAd.setRewardAdInteractionListener(new TTRewardVideoAd.RewardAdInteractionListener() {
-
-                    @Override
-                    public void onAdShow() {
-                        Log.i(TAG, "rewardVideoAd show");
-                    }
-
-                    @Override
-                    public void onAdVideoBarClick() {
-                        Log.i(TAG, "rewardVideoAd bar click");
-                    }
-
-                    @Override
-                    public void onAdClose() {
-                        Log.i(TAG, "rewardVideoAd close");
-                        rewardVideoAdListener.onRewardAdClose();
-                    }
-
-                    @Override
-                    public void onVideoComplete() {
-                        Log.i(TAG, "rewardVideoAd complete");
-                        rewardVideoAdListener.onRewardVideoComplete();
-                    }
-
-                    @Override
-                    public void onVideoError() {
-                        Log.i(TAG, "rewardVideoAd error");
-                        rewardVideoAdListener.onRewardVideoError();
-                    }
-
-                    @Override
-                    public void onRewardVerify(boolean b, int i, String s, int i1, String s1) {
-                        Log.i(TAG, "verify:"+b+" amount:"+i+
-                                " name:"+s);
-                        rewardVideoAdListener.onRewardVerify(b, i, s);
-                    }
-
-                    @Override
-                    public void onSkippedVideo() {
-                        Log.i(TAG, "onSkippedVideo");
-                        rewardVideoAdListener.onSkippedVideo();
-                    }
-                });
+                bindAdListener(mttRewardVideoAd);
             }
 
             @Override
             public void onRewardVideoCached() {
-                rewardVideoAdListener.onRewardVideoCached();
+                if (rewardVideoAdListener != null) {
+                    rewardVideoAdListener.onRewardVideoCached();
+                }
             }
         });
 
+    }
+
+    private void bindAdListener(TTRewardVideoAd ttRewardVideoAd) {
+        ttRewardVideoAd.setRewardAdInteractionListener(new TTRewardVideoAd.RewardAdInteractionListener() {
+            @Override
+            public void onAdShow() {
+                Log.i(TAG, "rewardVideoAd show");
+            }
+
+            @Override
+            public void onAdVideoBarClick() {
+                Log.i(TAG, "rewardVideoAd bar click");
+            }
+
+            @Override
+            public void onAdClose() {
+                Log.i(TAG, "rewardVideoAd close");
+                if (rewardVideoAdListener != null) {
+                    rewardVideoAdListener.onRewardAdClose();
+                }
+            }
+
+            @Override
+            public void onVideoComplete() {
+                Log.i(TAG, "rewardVideoAd complete");
+                if (rewardVideoAdListener != null) {
+                    rewardVideoAdListener.onRewardVideoComplete();
+                }
+            }
+
+            @Override
+            public void onVideoError() {
+                Log.i(TAG, "rewardVideoAd error");
+                if (rewardVideoAdListener != null) {
+                    rewardVideoAdListener.onRewardVideoError();
+                }
+            }
+
+            @Override
+            public void onRewardVerify(boolean b, int i, String s, int i1, String s1) {
+                Log.i(TAG, "verify:"+b+" amount:"+i+
+                        " name:"+s);
+                if (rewardVideoAdListener != null) {
+                    rewardVideoAdListener.onRewardVerify(b, i, s);
+                }
+            }
+
+            @Override
+            public void onSkippedVideo() {
+                Log.i(TAG, "onSkippedVideo");
+                if (rewardVideoAdListener != null) {
+                    rewardVideoAdListener.onSkippedVideo();
+                }
+            }
+        });
+    }
+
+    public void onDestroy() {
+        if (mttRewardVideoAd != null) {
+            //调用destroy()方法释放
+            mttRewardVideoAd = null;
+        }
     }
 
     /**

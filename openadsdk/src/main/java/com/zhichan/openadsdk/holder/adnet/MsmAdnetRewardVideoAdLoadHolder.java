@@ -30,19 +30,6 @@ public class MsmAdnetRewardVideoAdLoadHolder {
         this.rewardVideoAdnetListener = rewardVideoAdnetAdListener;
     }
 
-    private static MsmAdnetRewardVideoAdLoadHolder mSingleton = null;
-    private MsmAdnetRewardVideoAdLoadHolder () {}
-    public static MsmAdnetRewardVideoAdLoadHolder getInstance() {
-        if (mSingleton == null) {
-            synchronized (MsmAdnetRewardVideoAdLoadHolder.class) {
-                if (mSingleton == null) {
-                    mSingleton = new MsmAdnetRewardVideoAdLoadHolder();
-                }
-            }
-        }
-        return mSingleton;
-    }
-
     /**
      * 激励视频广告加载
      * @param activity
@@ -190,6 +177,13 @@ public class MsmAdnetRewardVideoAdLoadHolder {
             }
         }
     };
+
+    public void onDestroy() {
+        if (rewardVideoAD != null) {
+            //调用destroy()方法释放
+            rewardVideoAD = null;
+        }
+    }
 
     public interface RewardVideoAdnetListener {
         void onAdLoaded();
