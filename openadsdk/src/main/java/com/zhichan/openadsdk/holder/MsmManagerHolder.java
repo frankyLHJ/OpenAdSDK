@@ -87,7 +87,7 @@ public class MsmManagerHolder {
 
                         @Override
                         public String getDevOaid() {
-                            return null;
+                            return super.getDevOaid();
                         }
                     })
                     .build();
@@ -100,6 +100,7 @@ public class MsmManagerHolder {
 
     // 广点通初始化
     public static void initGDT(Context context, String appId) {
+        GlobalSetting.setAgreePrivacyStrategy(false);
         GDTADManager.getInstance().initWith(context, appId);
     }
 
