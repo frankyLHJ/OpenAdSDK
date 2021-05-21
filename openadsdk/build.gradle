@@ -1,111 +1,9 @@
-import java.util.zip.ZipFile
 
 apply plugin: 'com.android.library'
 
 apply plugin: 'com.github.dcendents.android-maven'
 
-// 应用插件
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'maven-publish'
-
-// 版本号，下次更新是只需要更改版本号即可
-version = "1.0.20"
-group = "com.zhichan";
-
-//生成源文件
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-//生成文档
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
-    classpath += files(ext.androidJar)
-    options.encoding "UTF-8"
-    options.charSet 'UTF-8'
-    options.author true
-    options.version true
-    failOnError false
-}
-
-//文档打包成jar
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-//拷贝javadoc文件
-task copyDoc(type: Copy) {
-    from "${buildDir}/docs/"
-    into "docs"
-}
-
-//上传到jcenter所需要的源码文件
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-install {
-    repositories {
-        mavenInstaller {
-            // This generates POM.xml with proper paramters
-            pom.project {
-                packaging 'aar'
-                //添加项目描述
-                name 'Gradle Plugin for Android'
-                url 'https://gitee.com/zckj2018/OpenAdSdk'
-
-                //设置开源证书信息
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                //添加开发者信息
-                developers {
-                    developer {
-                        name 'franky'
-                        email 'franky.li.hj@gmail.com'
-                    }
-                }
-
-                scm {
-                    connection 'https://github.com/FrankyLee-dev/OpenAdSDK.git'
-                    developerConnection 'https://github.com/FrankyLee-dev/OpenAdSDK.git'
-                    url 'https://gitee.com/zckj2018/OpenAdSdk'
-                }
-
-            }
-        }
-
-    }
-}
-
-//配置上传Bintray相关信息
-//上传到jcenter
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-bintray {
-    user = properties.getProperty("bintray.user") // * 必填
-    key = properties.getProperty("bintray.apikey") // * 必填
-
-    configurations = ['archives']
-    pkg {
-        repo = 'msmds' // * 上传到中央仓库的名称,就是你创建的仓库的名称
-        name = 'com.zhichan.openadsdk' // 上传到jcenter 的项目名称，就是你创建的package的名字
-        desc = 'Open Ad SDK' // 项目描述
-        websiteUrl = 'https://gitee.com/zckj2018/OpenAdSdk'
-        issueTrackerUrl = 'https://gitee.com/zckj2018/OpenAdSdk'
-        vcsUrl = 'https://github.com/FrankyLee-dev/OpenAdSDK.git'
-        labels = ['gradle', 'plugin']
-        licenses = ['Apache-2.0']
-        publish = true
-    }
-}
+group = "com.github.FrankyLee-dev"
 
 android {
     compileSdkVersion 28
@@ -146,6 +44,3 @@ dependencies {
     compile 'com.just.agentweb:agentweb:4.1.3'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
 }
-
-// 上传到jCenter命令
-// ./gradlew clean build bintrayUpload -PbintrayUser=msmds -PbintrayKey=d4e0d2bd4ecbf4325dadf39ca1677638e204a90a -PdryRun=false
