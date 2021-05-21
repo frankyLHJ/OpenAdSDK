@@ -6,6 +6,8 @@ import android.util.Log;
 import com.bytedance.sdk.openadsdk.TTAdConfig;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
+import com.bytedance.sdk.openadsdk.TTCustomController;
+import com.bytedance.sdk.openadsdk.TTLocation;
 import com.qq.e.comm.managers.GDTADManager;
 import com.qq.e.comm.managers.setting.GlobalSetting;
 import com.zhichan.openadsdk.holder.union.MsmAdConfig;
@@ -47,6 +49,47 @@ public class MsmManagerHolder {
                     .directDownloadNetworkType(config.getDirectDownloadNetworkType()) //允许直接下载的网络状态集合
                     .supportMultiProcess(config.isSupportMultiProcess())//是否支持多进程
                     .httpStack(config.getHttpStack())//自定义网络库，demo中给出了okhttp3版本的样例，其余请自行开发或者咨询工作人员。
+                    .customController(new TTCustomController() {
+                        @Override
+                        public boolean isCanUseLocation() {
+                            return super.isCanUseLocation();
+                        }
+
+                        @Override
+                        public TTLocation getTTLocation() {
+                            return super.getTTLocation();
+                        }
+
+                        @Override
+                        public boolean alist() {
+                            return super.alist();
+                        }
+
+                        @Override
+                        public boolean isCanUsePhoneState() {
+                            return false;
+                        }
+
+                        @Override
+                        public String getDevImei() {
+                            return null;
+                        }
+
+                        @Override
+                        public boolean isCanUseWifiState() {
+                            return super.isCanUseWifiState();
+                        }
+
+                        @Override
+                        public boolean isCanUseWriteExternal() {
+                            return super.isCanUseWriteExternal();
+                        }
+
+                        @Override
+                        public String getDevOaid() {
+                            return null;
+                        }
+                    })
                     .build();
             TTAdSdk.init(context, ttAdConfig);
             sInit = true;

@@ -1,6 +1,6 @@
 package com.zhichan.openadsdk.holder.union;
 
-import com.bytedance.sdk.adnet.face.IHttpStack;
+import com.bytedance.sdk.component.adnet.face.IHttpStack;
 import com.bytedance.sdk.openadsdk.TTCustomController;
 import com.bytedance.sdk.openadsdk.TTDownloadEventLogger;
 import com.bytedance.sdk.openadsdk.TTSecAbs;

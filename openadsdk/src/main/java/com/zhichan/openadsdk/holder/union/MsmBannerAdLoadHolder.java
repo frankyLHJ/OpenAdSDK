@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.DislikeInfo;
 import com.bytedance.sdk.openadsdk.FilterWord;
 import com.bytedance.sdk.openadsdk.PersonalizationPrompt;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
@@ -109,7 +110,7 @@ public class MsmBannerAdLoadHolder {
             }
         });
         //dislike设置
-        bindDislike(context, ad, false);
+        bindDislike(context, ad);
         if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD){
             return;
         }
@@ -149,40 +150,22 @@ public class MsmBannerAdLoadHolder {
 
     /**
      * 设置广告的不喜欢，开发者可自定义样式
-     * @param ad
-     * @param customStyle 是否自定义样式，true:样式自定义
+     * @param context 上下文
+     * @param ad 广告对象
      */
-    private void bindDislike(Context context, TTNativeExpressAd ad, boolean customStyle) {
-        if (customStyle) {
-            //使用自定义样式
-            List<FilterWord> words = ad.getFilterWords();
-            PersonalizationPrompt personalizationPrompt = ad.getPersonalizationPrompt();
-            if (words == null || words.isEmpty()) {
-                return;
-            }
-
-            final DislikeDialog dislikeDialog = new DislikeDialog(context, words, personalizationPrompt);
-            dislikeDialog.setOnDislikeItemClick(new DislikeDialog.OnDislikeItemClick() {
-                @Override
-                public void onItemClick(FilterWord filterWord) {
-                    //屏蔽广告
-                    Log.e(TAG,"onItemClick: " + filterWord.getName());
-                    //用户选择不喜欢原因后，移除广告展示
-//                    mExpressContainer.removeAllViews();
-                    bannerAdListener.onShield(filterWord.getName());
-                }
-            });
-            ad.setDislikeDialog(dislikeDialog);
-            return;
-        }
+    private void bindDislike(Context context, TTNativeExpressAd ad) {
         //使用默认个性化模板中默认dislike弹出样式
         ad.setDislikeCallback((Activity) context, new TTAdDislike.DislikeInteractionCallback() {
+
             @Override
-            public void onSelected(int position, String value) {
-                Log.e(TAG,"onItemClick: " + value);
-                //用户选择不喜欢原因后，移除广告展示
-//                mExpressContainer.removeAllViews();
-                bannerAdListener.onShield(value);
+            public void onShow() {
+
+            }
+
+            @Override
+            public void onSelected(int i, String s, boolean b) {
+                Log.e(TAG,"onItemClick: " + s);
+                bannerAdListener.onShield(s);
             }
 
             @Override
@@ -190,10 +173,6 @@ public class MsmBannerAdLoadHolder {
                 Log.e(TAG,"onCancel: 点击取消");
             }
 
-            @Override
-            public void onRefuse() {
-                Log.e(TAG,"onRefuse: 回收");
-            }
         });
     }
 

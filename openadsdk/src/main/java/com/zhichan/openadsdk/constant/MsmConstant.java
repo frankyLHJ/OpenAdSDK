@@ -1,7 +1,5 @@
 package com.zhichan.openadsdk.constant;
 
-import com.bytedance.sdk.openadsdk.utils.aj;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
