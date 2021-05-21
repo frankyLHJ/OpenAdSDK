@@ -74,8 +74,8 @@ install {
                 }
 
                 scm {
-                    connection 'https://github.com/frankyLHJ/OpenAdSDK.git'
-                    developerConnection 'https://github.com/frankyLHJ/OpenAdSDK.git'
+                    connection 'https://github.com/FrankyLee-dev/OpenAdSDK.git'
+                    developerConnection 'https://github.com/FrankyLee-dev/OpenAdSDK.git'
                     url 'https://gitee.com/zckj2018/OpenAdSdk'
                 }
 
@@ -100,7 +100,7 @@ bintray {
         desc = 'Open Ad SDK' // 项目描述
         websiteUrl = 'https://gitee.com/zckj2018/OpenAdSdk'
         issueTrackerUrl = 'https://gitee.com/zckj2018/OpenAdSdk'
-        vcsUrl = 'https://github.com/frankyLHJ/OpenAdSDK.git'
+        vcsUrl = 'https://github.com/FrankyLee-dev/OpenAdSDK.git'
         labels = ['gradle', 'plugin']
         licenses = ['Apache-2.0']
         publish = true
